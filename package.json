@@ -1,0 +1,19 @@
+{
+  "name": "rabotnikinsight",
+  "version": "1.0.0",
+  "description": "A project management system for Rabotnik A.M.B.A",
+  "main": "app.js",
+  "dependencies": {
+    "node": "^15.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "rabotnikinsight"
+  },
+  "author": "Luca Bastholm",
+  "license": "ISC"
+}
