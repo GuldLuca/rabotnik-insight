@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/styles.css">
+    <title>Rabotnik Insight</title>
+</head>
+<body>
+
+    <div class="modal-buttons">
+        <button onclick="document.getElementById('modal-signup').style.display='block'">Sign Up</button>
+        <button onclick="document.getElementById('modal-login').style.display='block'">Login</button>
+    </div>
+    <div id="modal-signup" class="modal">
+        <form action="" method="POST">
+            <div class="container">
+                <label for="email"><b>E-mail</b></label>
+                <input type="text" name="email" id="signup-e-mail">
+    
+                <label for="password"><b>Password</b></label>
+                <input type="text" name="password" id="signup-password">
+
+                <label for="passwordrepeat"><b>Repeat Password</b></label>
+                <input type="text" name="passwordrepeat" id="signup-password-repeat">
+
+                <div class="buttons">
+                    <button type="button" onclick="document.getElementById('modal-signup').style.display='none'" class="cancel-btn">Cancel</button>
+                    <button type="submit" class="signup-btn">Sign Up</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="modal-login" class="modal">
+        <form action="" method="POST">
+            <div class="container">
+                <label for="email"><b>E-mail</b></label>
+                <input type="text" name="email" id="login-e-mail">
+    
+                <label for="password"><b>Password</b></label>
+                <input type="text" name="password" id="login-password">
+
+                <div class="buttons">
+                    <button type="button" onclick="document.getElementById('modal-login').style.display='none'" class="cancel-btn">Cancel</button>
+                    <button type="submit" class="login-btn">Login</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
