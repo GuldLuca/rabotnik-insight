@@ -8,12 +8,12 @@ const Employee = require('../models/employee');
 
 const saltRounds = 12;
 
-const transport = nodemailer.createTransport(
+/*const transport = nodemailer.createTransport(
   nodemailerSendgrid({
       apiKey: process.env.SENDGRID_API_KEY
   })
-);
-console.log({ key: process.env(SENDGRID_API_KEY) });
+);*/
+
 exports.getIndex = (req,res) =>{
   return res.sendFile("/public/html/index.html", {root: "/home/luca/Skole/afsluttende-projekt/rabotnik-insight"});
 }
@@ -36,7 +36,7 @@ exports.postLogin = (req, res) =>{
     .compare(password, employee.password)
     .then(match =>{
       if(match){
-        req.session.isLoggedIn = true;
+        console.log(employee);
         req.session.employee = employee;
         return req.session.save(error =>{
           console.log(error);
@@ -79,7 +79,7 @@ exports.postSignup = async (req, res) =>{
             password: hashedPassword  
           });
           newEmployee.save();
-          transport.sendMail({
+          /*transport.sendMail({
             from: "info@rabotnik.coop",
             to: email,
             subject: "Sign-up to Rabotnik Insight",
@@ -88,7 +88,7 @@ exports.postSignup = async (req, res) =>{
             console.log(error);
             console.log(info.envelope);
             console.log(info.messageId);
-          });
+          });*/
           return res.redirect("/");
         }
       }
