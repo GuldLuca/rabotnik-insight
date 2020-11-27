@@ -2,22 +2,18 @@ const crypto = require('crypto');
 
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
-const sendgridTransport = require('nodemailer-sendgrid-transport');
-const { validationResult } = require('express-validator');
+const nodemailerSendgrid = require('nodemailer-sendgrid');
 
 const Employee = require('../models/employee');
 
 const saltRounds = 12;
 
-const transporter = nodemailer.createTransport(
-  sendgridTransport({
-    auth: {
-      api_key:
-        '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'
-    }
+const transport = nodemailer.createTransport(
+  nodemailerSendgrid({
+      apiKey: process.env.SENDGRID_API_KEY
   })
 );
-
+console.log({ key: process.env(SENDGRID_API_KEY) });
 exports.getIndex = (req,res) =>{
   return res.sendFile("/public/html/index.html", {root: "/home/luca/Skole/afsluttende-projekt/rabotnik-insight"});
 }
@@ -57,7 +53,7 @@ exports.postLogin = (req, res) =>{
   .catch(error => console.log(error));
 }
 
-exports.postSignup = (req, res) =>{
+exports.postSignup = async (req, res) =>{
   const email = req.body.email;
   const password = req.body.password;
   const confirmedPassword = req.body.passwordrepeat;
@@ -70,34 +66,43 @@ exports.postSignup = (req, res) =>{
     }
     else{
       try{
-        const employeeExists = await Employee.findOne({email: email});
-
-        if(employeeExists.length > 0){
+        const employeeExists = await Employee.findOne({where: {email: email}});
+        console.log(email);
+        console.log("employeeExists ", employeeExists);
+        if(employeeExists){
           return res.status(400).send({response: "Employee already registered"});
         }
         else{
           const hashedPassword = await bcrypt.hash(password, saltRounds);
-          const newEmployee = await Employee.query().insert({
-            
-          })
+          const newEmployee = new Employee({
+            email: email,
+            password: hashedPassword  
+          });
+          newEmployee.save();
+          transport.sendMail({
+            from: "info@rabotnik.coop",
+            to: email,
+            subject: "Sign-up to Rabotnik Insight",
+            text: "Hi, you just signed up to Rabotnik Insight. You can now use the system by logging in."
+          }, (error, info) =>{
+            console.log(error);
+            console.log(info.envelope);
+            console.log(info.messageId);
+          });
+          return res.redirect("/");
         }
+      }
+      catch(error){
+        console.log(error);
+        return res.redirect("/");
       }
     }
   }
+  else if(password && confirmedPassword && !passwordMatch){
+    return res.status(400).send({response:"Password dosen't match"});
+  }
+  else{
+    return res.status(400).send({response: "Please enter something"});
+  }
+};
 
-  bcrypt
-    .hash(password, saltRounds)
-    .then(hashedPassword =>{
-      const employee = new Employee({
-        email: email,
-        password: hashedPassword
-      });
-      return employee.save();
-    })
-    .then(result =>{
-      res.redirect("/");
-    })
-    .catch(error => {
-      console.log(error);
-    })
-}
