@@ -8,8 +8,8 @@ router.get("/", authController.getIndex);
 
 router.get("/frontpage", authController.getFront);
 
-router.post("/", authController.postLogin);
+router.post("/login", authController.postLogin);
 
-router.post("/", authController.postSignup);
+router.post("/signup", authController.postSignup);
 
 module.exports = router;
