@@ -15,6 +15,8 @@ $(document).ready(() =>{
         for(let i = 0; i < clientLength; i++){
             const tableRow = document.createElement("tr");
 
+            console.log(clients);
+
             /*const deleteForm = document.createElement("form");
             const editForm = document.createElement("form");*/
 
@@ -36,18 +38,19 @@ $(document).ready(() =>{
             editBtn.innerText = "Edit";
             deleteBtn.innerText = "Slet";
 
-            $(deleteForm).attr("action", "/delete-client");
+            
+            /*$(deleteForm).attr("action", "/delete-client");
             $(deleteForm).attr("method", "POST");
             $(editForm).attr("action", "/edit-client");
             $(editForm).attr("method", "POST");
 
             deleteForm.appendChild(deleteBtn);
-            editForm.appendChild(editBtn);
+            editForm.appendChild(editBtn);*/
 
-           /* $(editBtn).attr("id","editBtn" + clients[i].cvr);
+            $(editBtn).attr("id","editBtn" + clients[i].cvr);
             $(deleteBtn).attr("id","deleteBtn" + clients[i].cvr);
             
-            $(editBtn).attr("onclick","edit-client()");
+            /*$(editBtn).attr("onclick","edit-client()");
             $(deleteBtn).attr("onclick","delete-client()");*/
 
             tableRow.append(tName);
