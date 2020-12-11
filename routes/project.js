@@ -11,5 +11,9 @@ router.get("/opgaver", projectController.getProjectPage);
 router.post("/add-project", projectController.postAddProject);
 
 //router.post("/delete-project", projectController.postDeleteClients);
+  
+router.get("/api/opgaver/edit/:id", projectController.getEditProject);
+
+router.put("/edit-project", projectController.putEditProject);
 
 module.exports = router;

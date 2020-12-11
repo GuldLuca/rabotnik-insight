@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const nodemailerSendgrid = require('nodemailer-sendgrid');
+const session = require("express-session");
 
 const Employee = require('../models/employee');
 
@@ -25,9 +26,13 @@ exports.getFront = (req, res) =>{
 exports.postLogin = (req, res) =>{
   const email = req.body.email;
   const password = req.body.password;
+  console.log("Just inside postlogin");
+  console.log(email);
 
-  Employee.findOne({email: email})
+  Employee.findOne({where:{email: email}})
   .then(employee => {
+    console.log(employee);
+
     if(!employee){
       console.log("Employee dosen't exist");
       return res.sendFile("/public/html/index.html", {root: "/home/luca/Skole/afsluttende-projekt/rabotnik-insight"});
@@ -35,15 +40,23 @@ exports.postLogin = (req, res) =>{
     bcrypt
     .compare(password, employee.password)
     .then(match =>{
+      console.log("password:  ", password, "employee.password: ", employee.password);
+      console.log(req.session);
       if(match){
         console.log(employee);
+        req.session.isLoggedIn = true;
         req.session.employee = employee;
+        console.log("This is req.session.employee ", req.session.employee);
         return req.session.save(error =>{
           console.log(error);
+          console.log("req.session in session.save ", req.session);
           res.redirect("/frontpage");
         })
       }
-      return res.sendFile("/public/html/index.html", {root: "/home/luca/Skole/afsluttende-projekt/rabotnik-insight"});
+      else{
+        console.log("No match in database ", match);
+        return res.sendFile("/public/html/index.html", {root: "/home/luca/Skole/afsluttende-projekt/rabotnik-insight"});
+      }
     })
     .catch(error =>{
       console.log(error);
@@ -67,8 +80,6 @@ exports.postSignup = async (req, res) =>{
     else{
       try{
         const employeeExists = await Employee.findOne({where: {email: email}});
-        console.log(email);
-        console.log("employeeExists ", employeeExists);
         if(employeeExists){
           return res.status(400).send({response: "Employee already registered"});
         }

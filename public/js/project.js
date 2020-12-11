@@ -13,8 +13,16 @@ $(document).ready(() =>{
         let projectLength = projects.length;
         let clients = data.clients;
         let clientLength = clients.length;
+
+        let clientNames = {};
+
+        for(let i = 0; i<clientLength;i++){
+            clientNames[[clients[i].id]] = clients[i].name;
+        };
         
         for(let i = 0; i < projectLength; i++){
+            let clientSelect = document.getElementById("select-client");
+
             const tableRow = document.createElement("tr");
 
             const editBtn = document.createElement("button");
@@ -26,45 +34,33 @@ $(document).ready(() =>{
             const tDeadline = document.createElement("td");
             const tClient = document.createElement("td");
 
+            const deadlineFromDb = projects[i].deadline;
+            const jsDate = new Date(deadlineFromDb[0], deadlineFromDb[1] - 1, deadlineFromDb[2].substr(0, 2), deadlineFromDb[2].substr(3, 2), deadlineFromDb[2].substr(6, 2), deadlineFromDb[2].substr(9, 2));
+            const readableDate = jsDate.getDate() + "/" + jsDate.getMonth() + "/" + jsDate.getFullYear();
+
             tTitel.innerText = projects[i].titel;
             tDescription.innerText = projects[i].description;
             tPrice.innerText = projects[i].price;
-            tDeadline.innerText = projects[i].deadline;
+            tDeadline.innerText = readableDate;
 
-            console.log("clientID ----- ", projects[i].clientId);
+            const currentClientId = projects[i].clientId;
 
-            let currentProject = projects[i];
+            if(currentClientId in clientNames){
+                tClient.innerText = clientNames[currentClientId];
+            }
 
-            for(let i = 0; i<clientLength;i++){
-                console.log("Current client id ----- ", currentProject.clientId);
-                console.log("Client [i] id ------ ", clients[i].id);
-                console.log("client name ---- ", clients[i].name);
-                let currentClient = clients[i];
-                console.log("Current client  ", currentClient);
-                if(currentProject.clientId == currentClient.id){
-                    tClient.innerText = currentClient.name;
-                }
-                else{
-                    tClient.innerText = currentClient.id;
-                }
+            for(client in clientNames){
+                clientSelect.options[clientSelect.options.length] = new Option(clientNames[client], client);
             }
 
             editBtn.innerText = "Edit";
             deleteBtn.innerText = "Slet";
-
-            /*$(deleteForm).attr("action", "/delete-client");
-            $(deleteForm).attr("method", "POST");
-            $(editForm).attr("action", "/edit-client");
-            $(editForm).attr("method", "POST");
-
-            deleteForm.appendChild(deleteBtn);
-            editForm.appendChild(editBtn);*/
-
-            $(editBtn).attr("id","editBtn" + projects[i].cvr);
-            $(deleteBtn).attr("id","deleteBtn" + projects[i].cvr);
             
-            /*$(editBtn).attr("onclick","edit-client()");
-            $(deleteBtn).attr("onclick","delete-client()");*/
+            $(editBtn).attr("class", "editBtn");
+            $(deleteBtn).attr("class", "deleteBtn");
+
+            $(editBtn).attr("id", projects[i].id);
+            $(deleteBtn).attr("id", projects[i].id);
 
             tableRow.append(tTitel);
             tableRow.append(tDescription);
@@ -72,13 +68,52 @@ $(document).ready(() =>{
             tableRow.append(tDeadline);
             tableRow.append(tClient);
 
-            /*tableRow.append(editForm);
-            tableRow.append(deleteForm);*/
-
             tableRow.append(editBtn);
             tableRow.append(deleteBtn);
             
             projectTbody.append(tableRow);
         }
+
+        $(".editBtn").on("click", (event) => {
+            document.getElementById("modal-edit-project").style.display="block";
+
+            const id = $(event.currentTarget).attr("id");
+            
+            $.ajax({
+                url: "/api/opgaver/edit/" + id,
+                type: "GET",
+                data: {id: id}
+            }).done(data=>{
+
+                $("form").submit(function(event){
+                    event.preventDefault();
+                    const id = data.response.id;
+
+                    var dataFromForm = {
+                            "titel" : $("input[id=edit-titel]").val(),
+                            "description" : $("input[id=edit-description]").val(),
+                            "price" : $("input[id=edit-price]").val(),
+                            "deadline" : $("input[id=edit-deadline]").val(),
+                            "client" : $("input[id=edit-client]").val(),
+                            "id" : data.response.id
+                    }
+                       
+                    $.ajax({
+                        url: "/edit-project",
+                        type: "PUT",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(dataFromForm),
+                        success: function (data){
+                            window.location = window.location;
+                        },
+                        error: function(e){
+                            console.log(e);
+                        }
+                     })
+                })
+                
+            });
+        })
     })
 })

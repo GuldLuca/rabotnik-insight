@@ -8,10 +8,10 @@
 </head>
 <body>
     <div class="top-navigation">
-        <a class="active" href="#"><i class="fa fa-fw fa-home"></i> Home</a>
-        <a href="/html/profile.html"><i class="fas fa-user"></i> Profil</a>
+        <a href="/html/frontpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
+        <a href="/html/profile.html"><i class="fas fa-user"></i> Medarbejder</a>
         <a href="/html/time.html"><i class="far fa-clock"></i> Timer</a>
-        <a href="/html/allclients.html"><i class="fas fa-user-friends"></i> Kunder</a>
+        <a class="active" href="/html/allclients.html"><i class="fas fa-user-friends"></i> Kunder</a>
         <a href="/html/all-projects.html"><i class="fas fa-window-restore"></i> Opgaver</a>
         <a href="/html/all-tasks.html"><i class="fas fa-clipboard-list"></i> Tasks</a>
         <a href="/html/rabotnik.html"><i class="fas fa-fist-raised"></i> Rabotnik</a>
@@ -56,6 +56,34 @@
                 <div class="buttons">
                     <button type="button" onclick="document.getElementById('modal-add-client').style.display='none'" class="cancel-btn">Cancel</button>
                     <button type="submit" class="add-btn">Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="modal-edit-client" class="modal">
+        <form>
+            <div class="container">
+                <label for="name"><b>Navn</b></label>
+                <input type="text" name="name" id="edit-name">
+    
+                <label for="cvr"><b>CVR</b></label>
+                <input type="text" name="cvr" id="edit-cvr">
+
+                <label for="email"><b>E-mail</b></label>
+                <input type="email" name="email" id="edit-email">
+
+                <label for="phone"><b>Telefon</b></label>
+                <input type="tel" name="phone" id="edit-phone">
+
+                <label for="contact"><b>Kontaktperson</b></label>
+                <input type="text" name="contact" id="edit-contact">
+
+                <input type="hidden" name="id" id="id">
+
+                <div class="buttons">
+                    <button type="button" onclick="document.getElementById('modal-edit-client').style.display='none'" class="cancel-btn">Cancel</button>
+                    <button type="submit" class="edit-btn">Submit</button>
                 </div>
             </div>
         </form>

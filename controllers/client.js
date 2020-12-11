@@ -57,8 +57,63 @@ exports.postAddClients = async (req, res) =>{
     }
 }
 
-exports.postDeleteClients = (req, res) =>{
-    
+exports.getEditClient = async (req, res) =>{
+    const id = req.params.id;
+    const client = await Client.findOne({where:{"id": id}});
+
+    console.log(client);
+    console.log(id);
+    if(client != null){
+        return res.send({response: client});
+    }
+    else{
+        return res.status(400).send({response: "Can't find that client in db"});
+    }
+}
+
+exports.putEditClient = async (req, res) =>{
+    const name = req.body.name;
+    const cvr = req.body.cvr;
+    const email = req.body.email;
+    const phone = req.body.phone;
+    const contact = req.body.contact;
+    const id = req.body.id;
+
+    if(name && cvr && email && phone && contact && id){
+
+        try{
+            const clientExists = await Client.findOne({where: {"id": id}});
+
+            if(clientExists){
+                clientExists.update({
+                    name: name,
+                    cvr: cvr,
+                    email: email,
+                    phone : phone,
+                    contact : contact
+                },{where: {id: id}})
+                .then(function(updatedClient) {
+                    res.json(updatedClient);
+                  })
+            }
+            else{
+                console.log("Something went wrong");
+            }
+        }
+        catch(error){
+            console.log(error);
+        }
+    }
+    else{
+        res.status(400).send({response: "Please enter all info"});
+    }
+}
+
+exports.deleteClients = async (req, res) =>{
+    const id = req.params.id;
+    Client.destroy({where: {id: id}}).then(deletedClient =>{
+        res.json(deletedClient);
+    });
 }
 
 

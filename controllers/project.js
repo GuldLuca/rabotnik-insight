@@ -13,6 +13,7 @@ exports.getProjectApi = async (req,res) =>{
     if(projects.length > 0){
 
         if(projects.length > 0 && clients.length >0){
+            
             return res.send({projects, clients});
         }
         else{
@@ -62,4 +63,67 @@ exports.postAddProject = async (req, res) =>{
     else{
         res.status(400).send({response: "Please enter all info"});
     }
+}
+
+exports.getEditProject = async (req, res) =>{
+    const id = req.params.id;
+    const project = await Project.findOne({where:{"id": id}});
+
+    console.log("project from controller   ", project);
+    if(project != null){
+        console.log("inside if in get controller");
+        return res.send({response: project});
+    }
+    else{
+        return res.status(400).send({response: "Can't find that project in db"});
+    }
+}
+
+exports.putEditProject = async (req, res) =>{
+    const titel = req.body.titel;
+    const description = req.body.description;
+    const price = req.body.price;
+    const deadline = req.body.deadline;
+    const client = req.body.client;
+    const id = req.body.id;
+    console.log("THIS IS REQ:BODY", req.body);
+
+    if(titel && description && price && deadline && client && id){
+
+        console.log("inside if statement in putEdit");
+        try{
+            const projectExists = await Project.findOne({where: {"id": id}});
+            console.log("this is projectExists ", projectExists);
+            if(projectExists){
+                projectExists.update({
+                    titel: titel,
+                    description: description,
+                    price: price,
+                    deadline : deadline,
+                    client : client
+                },{where: {id: id}})
+                .then(function(updatedProject) {
+                    console.log("maybe succes", updatedProject);
+                    res.json(updatedProject);
+                  })
+            }
+            else{
+                console.log("Something went wrong");
+            }
+        }
+        catch(error){
+            console.log(error);
+        }
+    }
+    else{
+        res.status(400).send({response: "Please enter all info"});
+    }
+
+}
+
+exports.postDeleteProject = async (req, res) =>{
+
+    const id = req.body.id;
+    Project.destroy({where:{id: id}});
+    return res.redirect("/opgaver");
 }

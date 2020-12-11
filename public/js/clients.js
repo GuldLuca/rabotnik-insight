@@ -15,11 +15,6 @@ $(document).ready(() =>{
         for(let i = 0; i < clientLength; i++){
             const tableRow = document.createElement("tr");
 
-            console.log(clients);
-
-            /*const deleteForm = document.createElement("form");
-            const editForm = document.createElement("form");*/
-
             const editBtn = document.createElement("button");
             const deleteBtn = document.createElement("button");
             
@@ -38,20 +33,11 @@ $(document).ready(() =>{
             editBtn.innerText = "Edit";
             deleteBtn.innerText = "Slet";
 
-            
-            /*$(deleteForm).attr("action", "/delete-client");
-            $(deleteForm).attr("method", "POST");
-            $(editForm).attr("action", "/edit-client");
-            $(editForm).attr("method", "POST");
+            $(editBtn).attr("class", "editBtn");
+            $(deleteBtn).attr("class", "deleteBtn");
 
-            deleteForm.appendChild(deleteBtn);
-            editForm.appendChild(editBtn);*/
-
-            $(editBtn).attr("id","editBtn" + clients[i].cvr);
-            $(deleteBtn).attr("id","deleteBtn" + clients[i].cvr);
-            
-            /*$(editBtn).attr("onclick","edit-client()");
-            $(deleteBtn).attr("onclick","delete-client()");*/
+            $(editBtn).attr("id", clients[i].id);
+            $(deleteBtn).attr("id", clients[i].id);
 
             tableRow.append(tName);
             tableRow.append(tCvr);
@@ -59,13 +45,71 @@ $(document).ready(() =>{
             tableRow.append(tPhone);
             tableRow.append(tContact);
 
-            /*tableRow.append(editForm);
-            tableRow.append(deleteForm);*/
-
             tableRow.append(editBtn);
             tableRow.append(deleteBtn);
             
             clientTbody.append(tableRow);
         }
+        
+        $(".editBtn").on("click", (event) => {
+            document.getElementById("modal-edit-client").style.display="block";
+            event.preventDefault();
+            const id = $(event.currentTarget).attr("id");
+            console.log(id);
+            
+            $.ajax({
+                url: "/api/kunder/edit/" + id,
+                type: "GET",
+                data: {id: id}
+            }).done(data=>{
+
+                $("form").submit(function(event){
+                    event.preventDefault();
+                    const id = data.response.id;
+
+                    var dataFromForm = {
+                            "name" : $("input[id=edit-name]").val(),
+                            "cvr" : $("input[id=edit-cvr]").val(),
+                            "email" : $("input[id=edit-email]").val(),
+                            "phone" : $("input[id=edit-phone]").val(),
+                            "contact" : $("input[id=edit-contact]").val(),
+                            "id" : data.response.id
+                    }
+                       
+                    $.ajax({
+                        url: "/edit-client",
+                        type: "PUT",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(dataFromForm),
+                        success: function (data){
+                            window.location = window.location;
+                        },
+                        error: function(e){
+                            console.log(e);
+                        }
+                     })
+                })
+                
+            });
+        })
+
+        $(".deleteBtn").on("click", (event) =>{
+            event.preventDefault();
+            const id = $(event.currentTarget).attr("id");
+            
+            if(confirm("Er du sikker på du vil slette denne kunde?")){
+                $.ajax({
+                    url: "/delete-client/" + id,
+                    type: "DELETE",
+                    success: function (data){
+                        window.location = window.location;
+                    },
+                    error: function(e){
+                        console.log(e);
+                    }
+                 })
+            }
+        })
     })
 })

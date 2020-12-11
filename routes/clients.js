@@ -10,6 +10,10 @@ router.get("/kunder", clientController.getClientsPage);
 
 router.post("/add-client", clientController.postAddClients);
 
-router.post("/delete-client", clientController.postDeleteClients);
+router.delete("/delete-client/:id", clientController.deleteClients);
+
+router.get("/api/kunder/edit/:id", clientController.getEditClient);
+
+router.put("/edit-client", clientController.putEditClient);
 
 module.exports = router;
