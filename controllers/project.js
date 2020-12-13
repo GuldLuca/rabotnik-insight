@@ -2,8 +2,10 @@ const Client = require("../models/client");
 const Project = require("../models/project");
 const DB = require("../models/database");
 
+const rootPath = "/home/luca/Skole/datamatiker/rabotnik-insight";
+
 exports.getProjectPage = (req, res) =>{
-    return res.sendFile("/public/html/all-projects.html", {root: "/home/luca/Skole/afsluttende-projekt/rabotnik-insight"});
+    return res.sendFile("/public/html/all-projects.html", {root: rootPath});
 }
 
 exports.getProjectApi = async (req,res) =>{
@@ -26,17 +28,17 @@ exports.getProjectApi = async (req,res) =>{
 }
 
 exports.postAddProject = async (req, res) =>{
-    const titel = req.body.titel;
+    const title = req.body.title;
     const description = req.body.description;
     const price = req.body.price;
     const deadline = req.body.deadline;
 
     const client = req.body.client;
 
-    if(titel && description && price && deadline && client){
+    if(title && description && price && deadline && client){
 
         try{
-            const projectExists = await Project.findOne({where: {titel: titel}});
+            const projectExists = await Project.findOne({where: {title: title}});
             if(projectExists){
                 return res.status(400).send({repsonse: "Project already in database"});
             }
@@ -45,7 +47,7 @@ exports.postAddProject = async (req, res) =>{
                 const clientFromDB = await Client.findOne({where: {"name": client}});
                 console.log(clientFromDB);
                 const project = Project.create({
-                    titel: titel,
+                    title: title,
                     description: description,
                     price: price,
                     deadline: deadline
@@ -69,9 +71,7 @@ exports.getEditProject = async (req, res) =>{
     const id = req.params.id;
     const project = await Project.findOne({where:{"id": id}});
 
-    console.log("project from controller   ", project);
     if(project != null){
-        console.log("inside if in get controller");
         return res.send({response: project});
     }
     else{
@@ -80,30 +80,26 @@ exports.getEditProject = async (req, res) =>{
 }
 
 exports.putEditProject = async (req, res) =>{
-    const titel = req.body.titel;
+    const title = req.body.title;
     const description = req.body.description;
     const price = req.body.price;
     const deadline = req.body.deadline;
     const client = req.body.client;
     const id = req.body.id;
-    console.log("THIS IS REQ:BODY", req.body);
 
-    if(titel && description && price && deadline && client && id){
+    if(title && description && price && deadline && client && id){
 
-        console.log("inside if statement in putEdit");
         try{
             const projectExists = await Project.findOne({where: {"id": id}});
-            console.log("this is projectExists ", projectExists);
             if(projectExists){
                 projectExists.update({
-                    titel: titel,
+                    title: title,
                     description: description,
                     price: price,
                     deadline : deadline,
                     client : client
                 },{where: {id: id}})
                 .then(function(updatedProject) {
-                    console.log("maybe succes", updatedProject);
                     res.json(updatedProject);
                   })
             }
@@ -122,8 +118,8 @@ exports.putEditProject = async (req, res) =>{
 }
 
 exports.postDeleteProject = async (req, res) =>{
-
-    const id = req.body.id;
-    Project.destroy({where:{id: id}});
-    return res.redirect("/opgaver");
+    const id = req.params.id;
+    Project.destroy({where: {id: id}}).then(deletedProject =>{
+        res.json(deletedProject);
+    });
 }

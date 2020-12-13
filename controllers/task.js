@@ -5,8 +5,11 @@ const Employee = require("../models/employee");
 
 const DB = require("../models/database");
 
+const rootPath = "/home/luca/Skole/datamatiker/rabotnik-insight";
+
+
 exports.getTaskPage = (req, res) =>{
-    return res.sendFile("/public/html/all-tasks.html", {root: "/home/luca/Skole/afsluttende-projekt/rabotnik-insight"});
+    return res.sendFile("/public/html/all-tasks.html", {root: rootPath});
 }
 
 exports.getTaskApi = async (req,res) =>{
@@ -38,7 +41,7 @@ exports.getTaskApi = async (req,res) =>{
 }
 
 exports.postAddTask = async (req, res) =>{
-    const titel = req.body.titel;
+    const title = req.body.title;
     const description = req.body.description;
     const time = req.body.time;
     const done = req.body.done;
@@ -48,17 +51,21 @@ exports.postAddTask = async (req, res) =>{
     const trueVal = 1;
     const falseVal = 0;
 
-    if(titel && description && done && time && project){
-
+    console.log("reg.body from postAdd : ", req.body);
+    if(title && description && time && done && project){
+        console.log("Herehere");
         try{
-            const projectFromDb = await Project.findOne({where: {"titel": project}});
+            const projectFromDb = await Project.findOne({where: {"id": project}});
             const employeeFromDb = await Employee.findOne({where: {"id" : employee}});
+            console.log("project from db", projectFromDb);
+            console.log("employee from db", employeeFromDb);
             const task = Task.create({
-                titel: titel,
+                title: title,
                 description: description,
                 time: time,
                 done: trueVal
             }).then( async task =>{
+                console.log("then async task");
                 await task.setProject(projectFromDb);
                 await task.addEmployee(employeeFromDb);
             })
@@ -71,14 +78,16 @@ exports.postAddTask = async (req, res) =>{
     }
     if(!done){
         try{
-            const projectFromDb = await Project.findOne({where: {"titel": project}});
+            const projectFromDb = await Project.findOne({where: {"id": project}});
+            const employeeFromDb = await Employee.findOne({where: {"id" : employee}});
             const task = Task.create({
-                titel: titel,
+                title: title,
                 description: description,
                 time: time,
                 done: falseVal
             }).then( async task =>{
                 await task.setProject(projectFromDb);
+                await task.addEmployee(employeeFromDb);
             })
             return res.redirect("/tasks");
         }
@@ -105,21 +114,29 @@ exports.getEditTask = async (req, res) =>{
 }
 
 exports.putEditTask = async (req, res) =>{
-    const titel = req.body.titel;
+    const title = req.body.title;
     const description = req.body.description;
-    const time = req.body.price;
-    const done = req.body.deadline;
+    const time = req.body.time;
+    let done = req.body.done;
     const project = req.body.project;
     const client = req.body.client;
     const id = req.body.id;
 
-    if(titel && description && time && done && project && client && id){
+    if(req.body.done == "on"){
+        done = 1;
+    }
+    else{
+        done = 0;
+    }
+
+    if(title && description && time && done && project && client && id){
+        console.log("Inside if");
 
         try{
             const taskExists = await Task.findOne({where: {"id": id}});
             if(taskExists){
                 taskExists.update({
-                    titel: titel,
+                    title: title,
                     description: description,
                     time: time,
                     done : done,
@@ -127,7 +144,7 @@ exports.putEditTask = async (req, res) =>{
                     client : client
                 },{where: {id: id}})
                 .then(function(updatedTask) {
-                    res.json(updatedProject);
+                    res.json(updatedTask);
                   })
             }
             else{
@@ -142,4 +159,11 @@ exports.putEditTask = async (req, res) =>{
         res.status(400).send({response: "Please enter all info"});
     }
 
+}
+
+exports.deleteTask = async (req, res) =>{
+    const id = req.params.id;
+    Task.destroy({where: {id: id}}).then(deletedTask =>{
+        res.json(deletedTask);
+    });
 }

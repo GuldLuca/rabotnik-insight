@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/354f886926.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../css/styles.css">
     <title>Opgaver</title>
 </head>
@@ -22,11 +23,11 @@
         <table id="projectTable">
             <tbody>
                 <tr id="table-headers">
-                    <th>Titel</th>
+                    <th class="sortable">Titel</th>
                     <th>Beskrivelse</th>
                     <th>Pris</th>
-                    <th>Deadline</th>
-                    <th>Kunde</th>
+                    <th class="sortable">Deadline</th>
+                    <th class="sortable">Kunde</th>
                 </tr>
             </tbody>
         </table> 
@@ -42,8 +43,8 @@
     <div id="modal-add-project" class="modal">
         <form action="/add-project" method="POST">
             <div class="container">
-                <label for="titel"><b>Titel</b></label>
-                <input type="text" name="titel" id="add-titel">
+                <label for="title"><b>Titel</b></label>
+                <input type="text" name="title" id="add-title">
     
                 <label for="description"><b>Beskrivelse</b></label>
                 <input type="text" name="description" id="add-description">
@@ -70,8 +71,8 @@
     <div id="modal-edit-project" class="modal">
         <form>
             <div class="container">
-                <label for="titel"><b>Titel</b></label>
-                <input type="text" name="titel" id="edit-titel">
+                <label for="title"><b>Titel</b></label>
+                <input type="text" name="title" id="edit-title">
     
                 <label for="description"><b>Beskrivelse</b></label>
                 <input type="text" name="description" id="edit-description">
@@ -83,7 +84,9 @@
                 <input type="date" name="deadline" id="edit-deadline">
 
                 <label for="client"><b>Kunde</b></label>
-                <input type="text" name="client" id="edit-client">
+                <select name="client" id="select-client-edit">
+
+                </select>
 
                 <input type="hidden" name="id" id="id">
 

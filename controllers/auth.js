@@ -5,9 +5,12 @@ const nodemailer = require('nodemailer');
 const nodemailerSendgrid = require('nodemailer-sendgrid');
 const session = require("express-session");
 
+
 const Employee = require('../models/employee');
 
 const saltRounds = 12;
+
+const rootPath = "/home/luca/Skole/datamatiker/rabotnik-insight";
 
 /*const transport = nodemailer.createTransport(
   nodemailerSendgrid({
@@ -16,11 +19,11 @@ const saltRounds = 12;
 );*/
 
 exports.getIndex = (req,res) =>{
-  return res.sendFile("/public/html/index.html", {root: "/home/luca/Skole/afsluttende-projekt/rabotnik-insight"});
+  return res.sendFile("/public/html/index.html", {root: rootPath});
 }
 
 exports.getFront = (req, res) =>{
-  return res.sendFile("/public/html/frontpage.html", {root: "/home/luca/Skole/afsluttende-projekt/rabotnik-insight"});
+  return res.sendFile("/public/html/frontpage.html", {root: rootPath});
 }
 
 exports.postLogin = (req, res) =>{
@@ -35,7 +38,7 @@ exports.postLogin = (req, res) =>{
 
     if(!employee){
       console.log("Employee dosen't exist");
-      return res.sendFile("/public/html/index.html", {root: "/home/luca/Skole/afsluttende-projekt/rabotnik-insight"});
+      return res.sendFile("/public/html/index.html", {root: rootPath});
     }
     bcrypt
     .compare(password, employee.password)
@@ -55,7 +58,7 @@ exports.postLogin = (req, res) =>{
       }
       else{
         console.log("No match in database ", match);
-        return res.sendFile("/public/html/index.html", {root: "/home/luca/Skole/afsluttende-projekt/rabotnik-insight"});
+        return res.sendFile("/public/html/index.html", {root: rootPath});
       }
     })
     .catch(error =>{

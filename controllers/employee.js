@@ -1,23 +1,12 @@
 const Employee = require("../models/employee");
 const DB = require("../models/database");
 
-exports.setSessionValue = (req, res) =>{
-    req.sessions.myValue = "";
-    res.send({});
-}
-
-exports.getSessionValue = (req, res) =>{
-    return res.send({response: req.session.myValue});
-}
+const rootPath = "/home/luca/Skole/datamatiker/rabotnik-insight";
 
 exports.getEmployeePage = (req, res) =>{
     console.log(req.session);
     req.session.save();
-    return res.sendFile("/public/html/profile.html", {root: "/home/luca/Skole/afsluttende-projekt/rabotnik-insight"});
-}
-
-exports.getAllEmployees = (req, res) =>{
-
+    return res.sendFile("/public/html/profile.html", {root: rootPath});
 }
 
 exports.getEmployeeApi = (req, res) =>{
@@ -32,7 +21,7 @@ exports.getEmployeeApi = (req, res) =>{
             if(!employee){
                 req.session.reset();
                 console.log("Here?");
-                return res.sendFile("/public/html/index.html", {root: "/home/luca/Skole/afsluttende-projekt/rabotnik-insight"});
+                return res.sendFile("/public/html/index.html", {root: rootPath});
             }
             else{
                 res.locals.employee = employee;
@@ -42,7 +31,7 @@ exports.getEmployeeApi = (req, res) =>{
         }});
     }
     else{
-        return res.sendFile("/public/html/index.html", {root: "/home/luca/Skole/afsluttende-projekt/rabotnik-insight"});
+        return res.sendFile("/public/html/index.html", {root: rootPath});
     }
 }
 

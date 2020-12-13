@@ -9,7 +9,7 @@ const Project = DB.define("project", {
     allowNull: false,
     primaryKey: true
   },
-  titel: {
+  title: {
     type: Sequelize.STRING
   },
   description:{

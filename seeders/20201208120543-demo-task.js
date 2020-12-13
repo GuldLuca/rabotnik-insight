@@ -3,7 +3,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert("tasks", [{
-      titel: "Send mail",
+      title: "Send mail",
       description: "Der skal sendes en mail med status",
       done: "1",
       time: "1",
@@ -12,7 +12,7 @@ module.exports = {
       projectId: "2"
     },
     {
-      titel: "Udviklingsmiljø ",
+      title: "Udviklingsmiljø ",
       description: "Der sættes et udviklingsmiljø op til Luca og Adrian",
       done: "0",
       time: "3",

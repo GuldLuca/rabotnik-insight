@@ -9,7 +9,7 @@ const Task = DB.define("task", {
     allowNull: false,
     primaryKey: true
   },
-  titel: {
+  title: {
     type: Sequelize.STRING
   },
   description:{

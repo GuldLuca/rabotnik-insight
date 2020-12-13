@@ -1,6 +1,9 @@
 const Client = require("../models/client");
 const DB = require("../models/database");
 
+const rootPath = "/home/luca/Skole/datamatiker/rabotnik-insight";
+
+
 exports.getClientsApi = async (req,res) =>{
     const clients = await Client.findAll();
 
@@ -14,7 +17,7 @@ exports.getClientsApi = async (req,res) =>{
 }
 
 exports.getClientsPage = (req, res) =>{
-    return res.sendFile("/public/html/allclients.html", {root: "/home/luca/Skole/afsluttende-projekt/rabotnik-insight"});
+    return res.sendFile("/public/html/allclients.html", {root: rootPath});
 }
 
 exports.postAddClients = async (req, res) =>{
@@ -24,16 +27,13 @@ exports.postAddClients = async (req, res) =>{
     const phone = req.body.phone;
     const contact = req.body.contact;
 
-    console.log("inside postClients");
     console.log(name, cvr, email, phone, contact);
     if(name && cvr && email && phone && contact){
 
         try{
             const clientExists = await Client.findOne({where: {cvr: cvr}});
-            console.log("inside try");
             if(clientExists){
-                console.log("inside if");
-                return res.status(400).send({repsonse: "Client already in database"});
+                return res.status(400).send({response: "Client already in database"});
             }
             else{
                 const newClient = new Client({

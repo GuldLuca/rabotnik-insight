@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/354f886926.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../css/styles.css">
     <title>Tasks</title>
 </head>
@@ -22,13 +23,13 @@
         <table id="taskTable">
             <tbody>
                 <tr id="table-headers">
-                    <th>Titel</th>
+                    <th class="sortable">Titel</th>
                     <th>Beskrivelse</th>
-                    <th>Tid</th>
-                    <th>Færdig</th>
-                    <th>Opgave</th>
-                    <th>Kunde</th>
-                    <th>Tildelt</th>
+                    <th class="sortable">Tid</th>
+                    <th class="sortable">Færdig</th>
+                    <th class="sortable">Opgave</th>
+                    <th class="sortable">Kunde</th>
+                    <th class="sortable">Tildelt</th>
                 </tr>
             </tbody>
         </table> 
@@ -37,28 +38,30 @@
     </div>
 
     <div class="modal-button">
-        <button onclick="document.getElementById('modal-add-task').style.display='block'">Add new task</button>
+        <button onclick="document.getElementById('modal-add-task').style.display='block'">Tilføj ny task</button>
     </div>
     <div id="modal-add-task" class="modal">
         <form action="/add-task" method="POST">
             <div class="container">
-                <label for="titel"><b>Titel</b></label>
-                <input type="text" name="titel" id="add-titel">
+                <label for="title"><b>Titel</b></label>
+                <input type="text" name="title" id="add-title">
     
                 <label for="description"><b>Beskrivelse</b></label>
                 <input type="text" name="description" id="add-description">
 
                 <label for="time"><b>Tid</b></label>
-                <input type="number" name="time" id="add-time">
+                <input type="text" name="time" id="add-time">
 
                 <label for="done"><b>Færdig</b></label>
                 <input type="checkbox" name="done" id="add-done">
 
                 <label for="project"><b>Opgave</b></label>
-                <input type="text" name="project" id="add-project">
+                <select name="project" id="select-project-add">
+
+                </select>
 
                 <label for="client"><b>Kunde</b></label>
-                <input type="text" name="client" id="add-client">
+                <input type="text" name="client" id="add-client" readonly>
 
                 <label for="employee"><b>Tildel</b></label>
                 <select name="employee" id="select-employee">
@@ -68,7 +71,7 @@
 
                 <div class="buttons">
                     <button type="button" onclick="document.getElementById('modal-add-task').style.display='none'" class="cancel-btn">Cancel</button>
-                    <button type="submit" class="add-btn">Add</button>
+                    <button type="submit" class="add-btn">Tilføj</button>
                 </div>
             </div>
         </form>
@@ -77,23 +80,25 @@
     <div id="modal-edit-task" class="modal">
         <form action="/edit-task" method="PUT">
             <div class="container">
-                <label for="titel"><b>Titel</b></label>
-                <input type="text" name="titel" id="edit-titel">
+                <label for="title"><b>Titel</b></label>
+                <input type="text" name="title" id="edit-title">
     
                 <label for="description"><b>Beskrivelse</b></label>
                 <input type="text" name="description" id="edit-description">
 
                 <label for="time"><b>Tid</b></label>
-                <input type="number" name="time" id="edit-time">
+                <input type="text" name="time" id="edit-time">
 
                 <label for="done"><b>Færdig</b></label>
                 <input type="checkbox" name="done" id="edit-done">
 
                 <label for="project"><b>Opgave</b></label>
-                <input type="text" name="project" id="edit-project">
+                <select name="project" id="select-project">
+
+                </select>
 
                 <label for="client"><b>Kunde</b></label>
-                <input type="text" name="client" id="edit-client">
+                <input type="text" name="client" id="edit-client" readonly>
 
                 <input type="hidden" name="id" id="id">
 

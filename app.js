@@ -39,6 +39,8 @@ const taskRoute = require("./routes/task");
 app.use(taskRoute);
 const employeeRoute = require("./routes/employee");
 app.use(employeeRoute);
+const timeRoute = require("./routes/time");
+app.use(timeRoute);
 
 //Database associations
 Client.hasMany(Project);

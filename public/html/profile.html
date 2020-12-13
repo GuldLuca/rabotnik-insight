@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/354f886926.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../css/styles.css">
     <title>Profil</title>
 </head>
@@ -50,12 +51,73 @@
                     <input type="email" name="email" id="edit-email">
     
                     <div class="buttons">
-                        <button type="button" onclick="document.getElementById('modal-edit-info').style.display='none'" class="cancel-btn">Cancel</button>
+                        <button type="button" onclick="document.getElementById('modal-edit-info').style.display='none'" class="cancel-btn">Luk</button>
                         <button type="submit" class="edit-btn">Ret</button>
                     </div>
                 </div>
             </form>
         </div>
+    </div>
+
+    <div class="modal-button">
+        <button onclick="document.getElementById('modal-tasks').style.display='block'">Tasks</button>
+    </div>
+
+    <div id="modal-tasks" class="modal">
+        <table id="taskTable">
+            <tbody>
+                <tr id="table-headers">
+                    <th>Titel</th>
+                    <th>Beskrivelse</th>
+                    <th>Tid</th>
+                    <th>Færdig</th>
+                    <th>Opgave</th>
+                    <th>Kunde</th>
+                </tr>
+            </tbody>
+        </table> 
+        <button type="button" onclick="document.getElementById('modal-tasks').style.display='none'" class="cancel-btn">Luk</button>
+
+    </div>
+
+    <div class="modal-button">
+        <button onclick="document.getElementById('modal-time').style.display='block'">Timer</button>
+    </div>
+
+    <div id="modal-time" class="modal">
+        <table id="timeTable">
+            <tbody>
+                <tr id="table-headers">
+                    <th>Task</th>
+                    <th>Dato</th>
+                    <th>Tid</th>
+                </tr>
+            </tbody>
+        </table> 
+        <button type="button" onclick="document.getElementById('modal-time').style.display='none'" class="cancel-btn">Luk</button>
+        <button onclick="document.getElementById('modal-add-time').style.display='block'">Tilføj Timer</button>
+        
+        <div id="modal-add-time" class="modal">
+            <form action="/add-time" method="POST">
+                <div class="container">
+                    <label for="firstName"><b>Fornavn</b></label>
+                    <input type="text" name="firstName" id="edit-firstname">
+        
+                    <label for="lastName"><b>Efternavn</b></label>
+                    <input type="text" name="lastName" id="edit-lastname">
+    
+                    <label for="email"><b>E-mail</b></label>
+                    <input type="email" name="email" id="edit-email">
+    
+                    <div class="buttons">
+                        <button type="button" onclick="document.getElementById('modal-edit-info').style.display='none'" class="cancel-btn">Luk</button>
+                        <button type="submit" class="edit-btn">Ret</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
     </div>
 
     <script

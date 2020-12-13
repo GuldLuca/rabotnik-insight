@@ -3,7 +3,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert("projects", [{
-      titel: "Ny Hjemmeside",
+      title: "Ny Hjemmeside",
       description: "Der skal laves en ny wordpress i Gutenberg",
       price: "300000",
       deadline: "03-03-21",
@@ -12,7 +12,7 @@ module.exports = {
       clientId: "1"
     },
     {
-      titel: "Longread",
+      title: "Longread",
       price: "30000",
       description: "Longread til fagbladets Drupal",
       deadline: "05-05-21",

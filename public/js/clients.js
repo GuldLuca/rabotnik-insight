@@ -12,6 +12,7 @@ $(document).ready(() =>{
         let clients = data.reponse;
         let clientLength = clients.length;
         
+        //Fill table rows
         for(let i = 0; i < clientLength; i++){
             const tableRow = document.createElement("tr");
 
@@ -50,7 +51,26 @@ $(document).ready(() =>{
             
             clientTbody.append(tableRow);
         }
+
+        //Sort table
+        let sortableHeader = document.getElementsByClassName("sortable");
         
+        $(sortableHeader).click(function(){
+            var clientTable = $(this).parents('table').eq(0)
+            var clientRows = clientTable.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+            this.asc = !this.asc
+            if (!this.asc){clientRows = clientRows.reverse()}
+            for (var i = 0; i < clientRows.length; i++){clientTable.append(clientRows[i])}
+        })
+        function comparer(index) {
+            return function(a, b) {
+                var valA = getCellValue(a, index), valB = getCellValue(b, index)
+                return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+            }
+        }
+        function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
+
+        //Edit table row
         $(".editBtn").on("click", (event) => {
             document.getElementById("modal-edit-client").style.display="block";
             event.preventDefault();
@@ -94,6 +114,7 @@ $(document).ready(() =>{
             });
         })
 
+        //Delete table row
         $(".deleteBtn").on("click", (event) =>{
             event.preventDefault();
             const id = $(event.currentTarget).attr("id");

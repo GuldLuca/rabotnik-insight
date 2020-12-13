@@ -10,7 +10,7 @@ router.get("/tasks", taskController.getTaskPage);
 
 router.post("/add-task", taskController.postAddTask);
 
-//router.post("/delete-project", projectController.postDeleteClients);
+router.delete("/delete-task/:id", taskController.deleteTask);
 
 router.get("/api/tasks/edit/:id", taskController.getEditTask);
 
