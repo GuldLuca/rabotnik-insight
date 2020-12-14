@@ -3,10 +3,11 @@ const Task = require("../models/task");
 const Project = require("../models/project");
 const Client = require("../models/client");
 
-const rootPath = "/home/luca/Skole/datamatiker/rabotnik-insight";
+const rootPathHome = "/home/luca/Skole/datamatiker/rabotnik-insight";
+const rootPathRabotnik = "/home/luca/Skole/afsluttende-projekt/rabotnik-insight";
 
 exports.getTimePage = (req, res) =>{
-    return res.sendFile("/public/html/time.html", {root: rootPath});
+    return res.sendFile("/public/html/time.html", {root: rootPathRabotnik});
 }
 
 exports.getTime = async (req, res) =>{

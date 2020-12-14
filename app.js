@@ -5,6 +5,16 @@ const app = express();
 
 const bodyParser = require("body-parser");
 const session = require("express-session");
+const cookieParser = require("cookie-parser");
+//const fileStore = require("session-file-store")(session);
+
+//Session + cookie setup
+app.use(cookieParser());
+app.use(session({
+    secret: "thisistopsecret",
+    resave: true,
+    saveUninitialized: true
+}));
 
 //Database model instances
 const DB = require("./models/database");
@@ -20,10 +30,11 @@ app.use(bodyParser.json());
 //Static route
 app.use(express.static(path.join(__dirname, "public")));
 
-//Session setup
+//Session + cookie setup
+app.use(cookieParser());
 app.use(session({
     secret: "thisistopsecret",
-    cookie: {maxAge: 8*60*60*100},
+    cookie: {secure: false},
     resave: true,
     saveUninitialized: true
 }));

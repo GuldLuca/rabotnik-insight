@@ -5,11 +5,11 @@ const Employee = require("../models/employee");
 
 const DB = require("../models/database");
 
-const rootPath = "/home/luca/Skole/datamatiker/rabotnik-insight";
-
+const rootPathHome = "/home/luca/Skole/datamatiker/rabotnik-insight";
+const rootPathRabotnik = "/home/luca/Skole/afsluttende-projekt/rabotnik-insight";
 
 exports.getTaskPage = (req, res) =>{
-    return res.sendFile("/public/html/all-tasks.html", {root: rootPath});
+    return res.sendFile("/public/html/all-tasks.html", {root: rootPathRabotnik});
 }
 
 exports.getTaskApi = async (req,res) =>{

@@ -10,7 +10,8 @@ const Employee = require('../models/employee');
 
 const saltRounds = 12;
 
-const rootPath = "/home/luca/Skole/datamatiker/rabotnik-insight";
+const rootPathHome = "/home/luca/Skole/datamatiker/rabotnik-insight";
+const rootPathRabotnik = "/home/luca/Skole/afsluttende-projekt/rabotnik-insight";
 
 /*const transport = nodemailer.createTransport(
   nodemailerSendgrid({
@@ -19,11 +20,11 @@ const rootPath = "/home/luca/Skole/datamatiker/rabotnik-insight";
 );*/
 
 exports.getIndex = (req,res) =>{
-  return res.sendFile("/public/html/index.html", {root: rootPath});
+  return res.sendFile("/public/html/index.html", {root: rootPathRabotnik});
 }
 
 exports.getFront = (req, res) =>{
-  return res.sendFile("/public/html/frontpage.html", {root: rootPath});
+  return res.sendFile("/public/html/frontpage.html", {root: rootPathRabotnik});
 }
 
 exports.postLogin = (req, res) =>{
@@ -38,13 +39,12 @@ exports.postLogin = (req, res) =>{
 
     if(!employee){
       console.log("Employee dosen't exist");
-      return res.sendFile("/public/html/index.html", {root: rootPath});
+      return res.sendFile("/public/html/index.html", {root: rootPathRabotnik});
     }
     bcrypt
     .compare(password, employee.password)
     .then(match =>{
       console.log("password:  ", password, "employee.password: ", employee.password);
-      console.log(req.session);
       if(match){
         console.log(employee);
         req.session.isLoggedIn = true;
@@ -57,8 +57,8 @@ exports.postLogin = (req, res) =>{
         })
       }
       else{
-        console.log("No match in database ", match);
-        return res.sendFile("/public/html/index.html", {root: rootPath});
+        console.log("Password dosen't match that in database ", match);
+        return res.sendFile("/public/html/index.html", {root: rootPathRabotnik});
       }
     })
     .catch(error =>{

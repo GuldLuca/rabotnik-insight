@@ -6,8 +6,9 @@ $(document).ready(() =>{
     })
     .done(data=>{
 
-        const employees = data.employees;
-        const employeeLength = employees.length;
+        console.log("Are we here yet?");
+        const employee = data.employee;
+        const employeeLength = employee.length;
 
         for(i=0; i<employeeLength; i++){
             const tableRow = document.createElement("tr");

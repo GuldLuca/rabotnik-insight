@@ -1,8 +1,8 @@
 const Client = require("../models/client");
 const DB = require("../models/database");
 
-const rootPath = "/home/luca/Skole/datamatiker/rabotnik-insight";
-
+const rootPathHome = "/home/luca/Skole/datamatiker/rabotnik-insight";
+const rootPathRabotnik = "/home/luca/Skole/afsluttende-projekt/rabotnik-insight";
 
 exports.getClientsApi = async (req,res) =>{
     const clients = await Client.findAll();
@@ -17,7 +17,7 @@ exports.getClientsApi = async (req,res) =>{
 }
 
 exports.getClientsPage = (req, res) =>{
-    return res.sendFile("/public/html/allclients.html", {root: rootPath});
+    return res.sendFile("/public/html/allclients.html", {root: rootPathRabotnik});
 }
 
 exports.postAddClients = async (req, res) =>{
