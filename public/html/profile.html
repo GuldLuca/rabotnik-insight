@@ -24,18 +24,21 @@
     </div>
 
     <div id="modal-info" class="modal">
-        <table id="infoTable">
-            <tbody>
-                <tr id="table-headers">
-                    <th>Fornavn</th>
-                    <th>Efternavn</th>
-                    <th>E-mail</th>
-                </tr>
-            </tbody>
-        </table> 
+        
+        <div class="infoList">
+            <table id="infoTable">
+                <tbody>
+                    <tr id="table-headers">
+                        <th>Fornavn</th>
+                        <th>Efternavn</th>
+                        <th>E-mail</th>
+                    </tr>
+                </tbody>
+            </table> 
+        </div>
+
         <button type="button" onclick="document.getElementById('modal-info').style.display='none'" class="cancel-btn">Luk</button>
 
-        
         <button onclick="document.getElementById('modal-edit-info').style.display='block'">Ret oplysninger</button>
 
         <div id="modal-edit-info" class="modal">
@@ -64,18 +67,20 @@
     </div>
 
     <div id="modal-tasks" class="modal">
-        <table id="taskTable">
-            <tbody>
-                <tr id="table-headers">
-                    <th>Titel</th>
-                    <th>Beskrivelse</th>
-                    <th>Tid</th>
-                    <th>Færdig</th>
-                    <th>Opgave</th>
-                    <th>Kunde</th>
-                </tr>
-            </tbody>
-        </table> 
+        <div class="taskList">
+            <table id="taskTable">
+                <tbody>
+                    <tr id="table-headers">
+                        <th>Titel</th>
+                        <th>Beskrivelse</th>
+                        <th>Tid</th>
+                        <th>Færdig</th>
+                        <th>Opgave</th>
+                        <th>Kunde</th>
+                    </tr>
+                </tbody>
+            </table> 
+        </div>
         <button type="button" onclick="document.getElementById('modal-tasks').style.display='none'" class="cancel-btn">Luk</button>
 
     </div>
@@ -85,15 +90,17 @@
     </div>
 
     <div id="modal-time" class="modal">
-        <table id="timeTable">
-            <tbody>
-                <tr id="table-headers">
-                    <th>Task</th>
-                    <th>Dato</th>
-                    <th>Tid</th>
-                </tr>
-            </tbody>
-        </table> 
+        <div class="timeList">
+            <table id="timeTable">
+                <tbody>
+                    <tr id="table-headers">
+                        <th>Task</th>
+                        <th>Dato</th>
+                        <th>Tid</th>
+                    </tr>
+                </tbody>
+            </table> 
+        </div>
         <button type="button" onclick="document.getElementById('modal-time').style.display='none'" class="cancel-btn">Luk</button>
         <button onclick="document.getElementById('modal-add-time').style.display='block'">Tilføj Timer</button>
         

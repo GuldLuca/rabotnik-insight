@@ -1,35 +1,41 @@
 const Employee = require("../models/employee");
-const DB = require("../models/database");
+const Task = require("../models/task");
+const Project = require("../models/project");
+const Client = require("../models/client");
 
 const rootPathHome = "/home/luca/Skole/datamatiker/rabotnik-insight";
 const rootPathRabotnik = "/home/luca/Skole/afsluttende-projekt/rabotnik-insight";
 
 exports.getEmployeePage = (req, res) =>{
-    req.session.save();
     return res.sendFile("/public/html/profile.html", {root: rootPathRabotnik});
 }
 
 exports.getEmployeeApi = async (req, res) =>{
+    const employee = await Employee.findOne({where: {email: req.session.employee.email}});
+    const employeeTasks = await Employee.findAll({
+        include:[{
+            model: Task,
+            as: "tasks",
+            required: false
+        }]
+    });
+    const projects = await Project.findAll();
+    const clients = await Client.findAll();
 
-    if(req.session && req.session.employee){
-        const sessionEmail = req.session.employee.email;
-        const employee = await Employee.findOne({where: {email: sessionEmail}});
+    console.log(employeeTasks);
 
-        if(employee != null){
-            return res.send({response: employee});
-        }
-        else{
-            console.log("couldn't match employee from session with employee from database");
-            return res.sendFile("/public/html/index.html", {root: rootPathRabotnik});
-        }
+    if(req.session.employee && employee && employeeTasks && projects && clients){
+        return res.send({employee, employeeTasks, projects, clients});
+    }
+    else if(!employeeTasks){
+        return res.send({employee});
     }
     else{
-        console.log("Why won't it work");
-        return res.sendFile("/public/html/index.html", {root: rootPathRabotnik});
+        return res.status(400).send({response: "No tasks in database"});
     }
 }
 
-exports.getEditEmployee = async (req, res) =>{
+/*exports.getEditEmployee = async (req, res) =>{
     const id = req.params.id;
     const employee = await Employee.findOne({where:{"id": id}});
 
@@ -39,9 +45,42 @@ exports.getEditEmployee = async (req, res) =>{
     else{
         return res.status(400).send({response: "Can't find that employee in db"});
     }
-}
+}*/
 
-exports.putEditEmployee = (req, res) =>{
+exports.putEditEmployeeInfo = async(req, res) =>{
+    const currentEmail = req.body.currentEmail;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const email = req.body.email;
+
+    console.log(req.body);
+
+    if(currentEmail && firstName && lastName && email){
+        console.log("Inside if");
+
+        try{
+            const employeeExists = await Employee.findOne({where: {"email": currentEmail}});
+            if(employeeExists){
+                employeeExists.update({
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email
+                },{where: {email: currentEmail}})
+                .then(function(updatedEmployee) {
+                    res.json(updatedEmployee);
+                  })
+            }
+            else{
+                console.log("Something went wrong in DB");
+            }
+        }
+        catch(error){
+            console.log(error);
+        }
+    }
+    else{
+        res.status(400).send({response: "Please enter all info"});
+    }
 
 
 }

@@ -44,15 +44,12 @@ exports.postLogin = (req, res) =>{
     bcrypt
     .compare(password, employee.password)
     .then(match =>{
-      console.log("password:  ", password, "employee.password: ", employee.password);
       if(match){
         console.log(employee);
         req.session.isLoggedIn = true;
         req.session.employee = employee;
-        console.log("This is req.session.employee ", req.session.employee);
         return req.session.save(error =>{
           console.log(error);
-          console.log("req.session in session.save ", req.session);
           res.redirect("/frontpage");
         })
       }
