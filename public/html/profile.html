@@ -107,19 +107,62 @@
         <div id="modal-add-time" class="modal">
             <form action="/add-time" method="POST">
                 <div class="container">
-                    <label for="firstName"><b>Fornavn</b></label>
-                    <input type="text" name="firstName" id="edit-firstname">
-        
-                    <label for="lastName"><b>Efternavn</b></label>
-                    <input type="text" name="lastName" id="edit-lastname">
+                        <button onclick="document.getElementById('modal-add-task').style.display='block'">Tilføj ny task</button>
+                        <div id="modal-add-task" class="modal">
+                            <form action="/add-task" method="POST">
+                                <div class="container">
+                                    <label for="title"><b>Titel</b></label>
+                                    <input type="text" name="title" id="add-title">
+                        
+                                    <label for="description"><b>Beskrivelse</b></label>
+                                    <input type="text" name="description" id="add-description">
+                    
+                                    <label for="time"><b>Tid</b></label>
+                                    <input type="text" name="time" id="add-time">
+                    
+                                    <label for="done"><b>Færdig</b></label>
+                                    <input type="checkbox" name="done" id="add-done">
+                    
+                                    <label for="project"><b>Opgave</b></label>
+                                    <select name="project" id="select-project-add">
+                    
+                                    </select>
+                    
+                                    <label for="client"><b>Kunde</b></label>
+                                    <input type="text" name="client" id="add-client" readonly>
+                    
+                                    </select>
+                    
+                                    <div class="buttons">
+                                        <button type="button" onclick="document.getElementById('modal-add-task').style.display='none'" class="cancel-btn">Cancel</button>
+                                        <button type="submit" class="add-btn">Tilføj</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <button onclick="document.getElementById('modal-add-other').style.display='block'">Tilføj andet</button>
+                        <div id="modal-add-other" class="modal">
+                            <form action="/add-other" method="POST">
+                                <label for="type">Type</label>
+                                <select name="type" id="add-type"></select>
+
+                                <label for="description">Beskrivelse</label>
+                                <input type="text" id="add-description">
+
+                                <label for="date">Dato</label>
+                                <input type="date" name="date" id="add-date">
+
+                                <label for="time">Tid anvendt</label>
+                                <input type="text" id="add-time">
+
+                                <div class="buttons">
+                                    <button type="button" onclick="document.getElementById('modal-add-other').style.display='none'" class="cancel-btn">Cancel</button>
+                                    <button type="submit" class="add-btn">Tilføj</button>
+                                </div>
+                            </form>
+                        </div>
     
-                    <label for="email"><b>E-mail</b></label>
-                    <input type="email" name="email" id="edit-email">
-    
-                    <div class="buttons">
-                        <button type="button" onclick="document.getElementById('modal-edit-info').style.display='none'" class="cancel-btn">Luk</button>
-                        <button type="submit" class="edit-btn">Ret</button>
-                    </div>
+                        <button type="button" onclick="document.getElementById('modal-add-time').style.display='none'" class="cancel-btn">Luk</button>
                 </div>
             </form>
         </div>
