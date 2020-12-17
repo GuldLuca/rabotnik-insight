@@ -2,11 +2,10 @@ const Client = require("../models/client");
 const Project = require("../models/project");
 const DB = require("../models/database");
 
-const rootPathHome = "/home/luca/Skole/datamatiker/rabotnik-insight";
-const rootPathRabotnik = "/home/luca/Skole/afsluttende-projekt/rabotnik-insight";
+const rootPath = require("../variables/root-path.json").path;
 
 exports.getProjectPage = (req, res) =>{
-    return res.sendFile("/public/html/all-projects.html", {root: rootPathRabotnik});
+    return res.sendFile("/public/html/all-projects.html", {root: rootPath});
 }
 
 exports.getProjectApi = async (req,res) =>{
@@ -44,9 +43,7 @@ exports.postAddProject = async (req, res) =>{
                 return res.status(400).send({repsonse: "Project already in database"});
             }
             else{
-                console.log(client);
-                const clientFromDB = await Client.findOne({where: {"name": client}});
-                console.log(clientFromDB);
+                const clientFromDB = await Client.findOne({where: {name: client}});
                 const project = Project.create({
                     title: title,
                     description: description,
@@ -70,7 +67,7 @@ exports.postAddProject = async (req, res) =>{
 
 exports.getEditProject = async (req, res) =>{
     const id = req.params.id;
-    const project = await Project.findOne({where:{"id": id}});
+    const project = await Project.findOne({where:{id: id}});
 
     if(project != null){
         return res.send({response: project});

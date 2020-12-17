@@ -8,12 +8,16 @@ $(document).ready(() =>{
     .done(data =>{
         let tasks = data.tasks;
         let taskLength = tasks.length;
+
         let projects = data.projects;
         let projectLength = projects.length;
+
         let clients = data.clients;
         let clientLength = clients.length;
+
         let employees = data.employees;
         let employeeLength = employees.length;
+        
         let employeeTasks = data.employeeTasks;
         let employeeTasksLength = employeeTasks.length;
 

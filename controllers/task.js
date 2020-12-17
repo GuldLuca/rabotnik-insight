@@ -5,11 +5,10 @@ const Employee = require("../models/employee");
 
 const DB = require("../models/database");
 
-const rootPathHome = "/home/luca/Skole/datamatiker/rabotnik-insight";
-const rootPathRabotnik = "/home/luca/Skole/afsluttende-projekt/rabotnik-insight";
+const rootPath = require("../variables/root-path.json").path;
 
 exports.getTaskPage = (req, res) =>{
-    return res.sendFile("/public/html/all-tasks.html", {root: rootPathRabotnik});
+    return res.sendFile("/public/html/all-tasks.html", {root: rootPath});
 }
 
 exports.getTaskApi = async (req,res) =>{
@@ -51,21 +50,16 @@ exports.postAddTask = async (req, res) =>{
     const trueVal = 1;
     const falseVal = 0;
 
-    console.log("reg.body from postAdd : ", req.body);
     if(title && description && time && done && project){
-        console.log("Herehere");
         try{
-            const projectFromDb = await Project.findOne({where: {"id": project}});
-            const employeeFromDb = await Employee.findOne({where: {"id" : employee}});
-            console.log("project from db", projectFromDb);
-            console.log("employee from db", employeeFromDb);
+            const projectFromDb = await Project.findOne({where: {id: project}});
+            const employeeFromDb = await Employee.findOne({where: {id : employee}});
             const task = Task.create({
                 title: title,
                 description: description,
                 time: time,
                 done: trueVal
             }).then( async task =>{
-                console.log("then async task");
                 await task.setProject(projectFromDb);
                 await task.addEmployee(employeeFromDb);
             })
@@ -78,8 +72,8 @@ exports.postAddTask = async (req, res) =>{
     }
     if(!done){
         try{
-            const projectFromDb = await Project.findOne({where: {"id": project}});
-            const employeeFromDb = await Employee.findOne({where: {"id" : employee}});
+            const projectFromDb = await Project.findOne({where: {id: project}});
+            const employeeFromDb = await Employee.findOne({where: {id: employee}});
             const task = Task.create({
                 title: title,
                 description: description,
@@ -103,7 +97,7 @@ exports.postAddTask = async (req, res) =>{
 
 exports.getEditTask = async (req, res) =>{
     const id = req.params.id;
-    const task = await Task.findOne({where:{"id": id}});
+    const task = await Task.findOne({where:{id: id}});
 
     if(task != null){
         return res.send({response: task});
@@ -117,29 +111,48 @@ exports.putEditTask = async (req, res) =>{
     const title = req.body.title;
     const description = req.body.description;
     const time = req.body.time;
-    let done = req.body.done;
+    const done = req.body.done;
     const project = req.body.project;
     const client = req.body.client;
     const id = req.body.id;
 
-    if(req.body.done == "on"){
-        done = 1;
-    }
-    else{
-        done = 0;
-    }
+    const trueVal = 1;
+    const falseVal = 0;
 
     if(title && description && time && done && project && client && id){
-        console.log("Inside if");
 
         try{
-            const taskExists = await Task.findOne({where: {"id": id}});
+            const taskExists = await Task.findOne({where: {id: id}});
             if(taskExists){
                 taskExists.update({
                     title: title,
                     description: description,
                     time: time,
-                    done : done,
+                    done : trueVal,
+                    project: project,
+                    client : client
+                },{where: {id: id}})
+                .then(function(updatedTask) {
+                    res.json(updatedTask);
+                  })
+            }
+            else{
+                console.log("Something went wrong in DB");
+            }
+        }
+        catch(error){
+            console.log(error);
+        }
+    }
+    else if(!done){
+        try{
+            const taskExists = await Task.findOne({where: {id: id}});
+            if(taskExists){
+                taskExists.update({
+                    title: title,
+                    description: description,
+                    time: time,
+                    done : falseVal,
                     project: project,
                     client : client
                 },{where: {id: id}})

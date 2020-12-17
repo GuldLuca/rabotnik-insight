@@ -1,15 +1,13 @@
 const Client = require("../models/client");
-const DB = require("../models/database");
 
-const rootPathHome = "/home/luca/Skole/datamatiker/rabotnik-insight";
-const rootPathRabotnik = "/home/luca/Skole/afsluttende-projekt/rabotnik-insight";
+const rootPath = require("../variables/root-path.json").path;
 
 exports.getClientsApi = async (req,res) =>{
     const clients = await Client.findAll();
 
     if(clients.length > 0){
         
-        return res.send({reponse: clients});    
+        return res.send({response: clients});    
     }
     else{
         return res.status(400).send({response: "No clients in database"});
@@ -17,7 +15,7 @@ exports.getClientsApi = async (req,res) =>{
 }
 
 exports.getClientsPage = (req, res) =>{
-    return res.sendFile("/public/html/allclients.html", {root: rootPathRabotnik});
+    return res.sendFile("/public/html/allclients.html", {root: rootPath});
 }
 
 exports.postAddClients = async (req, res) =>{
@@ -27,7 +25,6 @@ exports.postAddClients = async (req, res) =>{
     const phone = req.body.phone;
     const contact = req.body.contact;
 
-    console.log(name, cvr, email, phone, contact);
     if(name && cvr && email && phone && contact){
 
         try{
@@ -59,10 +56,8 @@ exports.postAddClients = async (req, res) =>{
 
 exports.getEditClient = async (req, res) =>{
     const id = req.params.id;
-    const client = await Client.findOne({where:{"id": id}});
+    const client = await Client.findOne({where:{id: id}});
 
-    console.log(client);
-    console.log(id);
     if(client != null){
         return res.send({response: client});
     }
@@ -82,7 +77,7 @@ exports.putEditClient = async (req, res) =>{
     if(name && cvr && email && phone && contact && id){
 
         try{
-            const clientExists = await Client.findOne({where: {"id": id}});
+            const clientExists = await Client.findOne({where: {id: id}});
 
             if(clientExists){
                 clientExists.update({
@@ -105,7 +100,7 @@ exports.putEditClient = async (req, res) =>{
         }
     }
     else{
-        res.status(400).send({response: "Please enter all info"});
+        res.status(400).send({response: "Every input field should be filled"});
     }
 }
 

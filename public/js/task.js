@@ -11,20 +11,24 @@ $(document).ready(() =>{
             return Object.keys(obj).find(key => obj[key] === val);
         }
         
-        let taskTable = jQuery(".taskList");
+        let taskTable = $(".taskList");
         let taskTbody = taskTable.find("tbody");
         
         let tasks = data.tasks;
         let taskLength = tasks.length;
+
         let projects = data.projects;
         let projectLength = projects.length;
+
         let clients = data.clients;
         let clientLength = clients.length;
+
         let employees = data.employees;
         let employeeLength = employees.length;
+
         let employeeTasks = data.employeeTasks;
         let employeeTasksLength = employeeTasks.length;
-        console.log(employeeTasks);
+
         let projectNames = {};
         let projectClientIds = {};
         let projectArray = [];
@@ -53,7 +57,7 @@ $(document).ready(() =>{
         
         for(let i = 0; i<employeeTasksLength; i++){
             let taskLength = employeeTasks[i].tasks.length;
-            console.log(taskLength);
+
             for(let i = 0; i<taskLength; i++){
                 employeesAndTasks[[employeeTasks[i].id]] = tasks[i].id;
             }
@@ -64,7 +68,9 @@ $(document).ready(() =>{
         for(let i = 0; i < taskLength; i++){
             let employeeSelect = document.getElementById("select-employee");
             let projectSelect = document.getElementById("select-project");
+            
             let clientFromEdit = document.getElementById("edit-client");
+
             let projectSelectAdd = document.getElementById("select-project-add");
             let clientFromAdd = document.getElementById("add-client");
             
@@ -87,8 +93,10 @@ $(document).ready(() =>{
             
             if(tasks[i].done == true){
                 const i = document.createElement("i");
+
                 $(i).attr("class","fa fa-check");
                 $(i).attr("aria-hidden", "true");
+
                 tDone.append(i);
             }
             else{
@@ -99,12 +107,10 @@ $(document).ready(() =>{
             
             if(currentProjectId in projectNames){
                 tProject.innerText = projectNames[currentProjectId];
-                console.log(tProject.innerText);
             }
             
             if(currentProjectId in projectClientIds){
                 tClient.innerText = clientNames[projectClientIds[currentProjectId]];
-                console.log(tClient.innerText);
             }
             
             for(employee in employeeLastnames){
@@ -118,8 +124,10 @@ $(document).ready(() =>{
             
             $(projectSelect).on("change", (event)=>{
                 event.preventDefault();
+
                 let selectedProject = projectSelect.options[projectSelect.selectedIndex].text;
                 let currentProjectId = getKeyByValue(projectNames, selectedProject);
+
                 if(projectArray.includes(selectedProject)){
                     clientFromEdit.value = clientNames[currentProjectId];
                 }
@@ -130,8 +138,10 @@ $(document).ready(() =>{
             
             $(projectSelectAdd).on("change", (event)=>{
                 event.preventDefault();
+
                 let selectedProject = projectSelectAdd.options[projectSelectAdd.selectedIndex].text;
                 let currentProjectId = getKeyByValue(projectNames, selectedProject);
+
                 if(projectArray.includes(selectedProject)){
                     clientFromAdd.value = clientNames[currentProjectId];
                 }
@@ -172,19 +182,28 @@ $(document).ready(() =>{
         let sortableHeader = document.getElementsByClassName("sortable");
         
         $(sortableHeader).click(function(){
-            var clientTable = $(this).parents('table').eq(0)
-            var clientRows = clientTable.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
-            this.asc = !this.asc
-            if (!this.asc){clientRows = clientRows.reverse()}
-            for (var i = 0; i < clientRows.length; i++){clientTable.append(clientRows[i])}
+            var clientTable = $(this).parents("table").eq(0);
+            var clientRows = clientTable.find("tr:gt(0)").toArray().sort(comparer($(this).index()));
+
+            this.asc = !this.asc;
+
+            if (!this.asc){
+                clientRows = clientRows.reverse();
+            }
+            for (var i = 0; i < clientRows.length; i++){
+                clientTable.append(clientRows[i]);
+            }
         })
         function comparer(index) {
             return function(a, b) {
-                var valA = getCellValue(a, index), valB = getCellValue(b, index)
-                return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+                var valA = getCellValue(a, index), valB = getCellValue(b, index);
+
+                return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB);
             }
         }
-        function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
+        function getCellValue(row, index){ 
+            return $(row).children("td").eq(index).text();
+        }
         
         //Edit task
         $(".editBtn").on("click", (event) => {
@@ -200,6 +219,7 @@ $(document).ready(() =>{
                 
                 $("form").submit(function(event){
                     event.preventDefault();
+
                     const id = data.response.id;
                     
                     var dataFromForm = {
@@ -233,6 +253,7 @@ $(document).ready(() =>{
         //Delete task
         $(".deleteBtn").on("click", (event) =>{
             event.preventDefault();
+            
             const id = $(event.currentTarget).attr("id");
             
             if(confirm("Er du sikker på du vil slette denne task?")){

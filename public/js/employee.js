@@ -6,7 +6,7 @@ $(document).ready(() =>{
     })
     .done(data=>{
         
-        let infoTable = jQuery(".infoList");
+        let infoTable = $(".infoList");
         let infoTbody = infoTable.find("tbody");
         
         const employee = data.employee;
@@ -21,12 +21,6 @@ $(document).ready(() =>{
         tFirstName.innerText = employee.firstName;
         tLastName.innerText = employee.lastName;
         tEmail.innerText = employee.email;
-        console.log(employee);
-        console.log(employee.email);
-        
-        console.log(tFirstName);
-        console.log(tLastName);
-        console.log(tEmail);
         
         tableRow.append(tFirstName);
         tableRow.append(tLastName);
@@ -37,6 +31,7 @@ $(document).ready(() =>{
         //Edit info
         $("form").submit(function(event){
             event.preventDefault();
+
             const currentEmail = employee.email;
             
             var dataFromForm = {
@@ -63,6 +58,7 @@ $(document).ready(() =>{
         
         //Fill task table
         const allEmployeeTasks = data.employeeTasks;
+
         let employeeTasks = [];
 
         const projects = data.projects;
@@ -81,7 +77,7 @@ $(document).ready(() =>{
             clientNames[[clients[i].id]] = clients[i].name;
         }
                 
-        let taskTable = jQuery(".taskList");
+        let taskTable = $(".taskList");
         let taskTbody = taskTable.find("tbody");
         
         const taskTableRow = document.createElement("tr");
@@ -96,6 +92,7 @@ $(document).ready(() =>{
         for(let i = 0; i<allEmployeeTasks.length; i++){
             if(allEmployeeTasks[i].lastName == employee.lastName){
                 employeeTasks.push(allEmployeeTasks[i]);
+
                 let tasks = allEmployeeTasks[i].tasks;
                 let taskLength = allEmployeeTasks[i].tasks.length;
                 
@@ -125,11 +122,10 @@ $(document).ready(() =>{
         taskTableRow.append(tProject);
         taskTableRow.append(tClient);
         
-        
         taskTbody.append(taskTableRow);
         
         //Fill time table
-        let timeTable = jQuery(".timeList");
+        let timeTable = $(".timeList");
         let timeTbody = timeTable.find("tbody");
         
         const timeTableRow = document.createElement("tr");
@@ -141,9 +137,10 @@ $(document).ready(() =>{
         for(let i = 0; i<allEmployeeTasks.length; i++){
             if(allEmployeeTasks[i].lastName == employee.lastName){
                 employeeTasks.push(allEmployeeTasks[i]);
+
                 let tasks = allEmployeeTasks[i].tasks;
                 let taskLength = allEmployeeTasks[i].tasks.length;
-                console.log("here");
+
                 for(let i = 0; i<taskLength; i++){
                     
                     timeTask.innerText = tasks[i].title;
@@ -153,7 +150,6 @@ $(document).ready(() =>{
                 
             }
         }
-        console.log(timeTask.innerText);
         
         timeTableRow.append(timeTask);
         timeTableRow.append(timeDate);
@@ -161,6 +157,5 @@ $(document).ready(() =>{
 
         timeTbody.append(timeTableRow);
 
-        
     });
 })

@@ -3,11 +3,10 @@ const Task = require("../models/task");
 const Project = require("../models/project");
 const Client = require("../models/client");
 
-const rootPathHome = "/home/luca/Skole/datamatiker/rabotnik-insight";
-const rootPathRabotnik = "/home/luca/Skole/afsluttende-projekt/rabotnik-insight";
+const rootPath = require("../variables/root-path.json").path;
 
 exports.getEmployeePage = (req, res) =>{
-    return res.sendFile("/public/html/profile.html", {root: rootPathRabotnik});
+    return res.sendFile("/public/html/profile.html", {root: rootPath});
 }
 
 exports.getEmployeeApi = async (req, res) =>{
@@ -22,8 +21,6 @@ exports.getEmployeeApi = async (req, res) =>{
     const projects = await Project.findAll();
     const clients = await Client.findAll();
 
-    console.log(employeeTasks);
-
     if(req.session.employee && employee && employeeTasks && projects && clients){
         return res.send({employee, employeeTasks, projects, clients});
     }
@@ -35,31 +32,16 @@ exports.getEmployeeApi = async (req, res) =>{
     }
 }
 
-/*exports.getEditEmployee = async (req, res) =>{
-    const id = req.params.id;
-    const employee = await Employee.findOne({where:{"id": id}});
-
-    if(employee != null){
-        return res.send({response: employee});
-    }
-    else{
-        return res.status(400).send({response: "Can't find that employee in db"});
-    }
-}*/
-
 exports.putEditEmployeeInfo = async(req, res) =>{
     const currentEmail = req.body.currentEmail;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.email;
 
-    console.log(req.body);
-
     if(currentEmail && firstName && lastName && email){
-        console.log("Inside if");
 
         try{
-            const employeeExists = await Employee.findOne({where: {"email": currentEmail}});
+            const employeeExists = await Employee.findOne({where: {email: currentEmail}});
             if(employeeExists){
                 employeeExists.update({
                     firstName: firstName,

@@ -6,11 +6,12 @@ $(document).ready(() =>{
     })
     .done(data =>{
         
-        let projectTable = jQuery(".projectList");
+        let projectTable = $(".projectList");
         let projectTbody = projectTable.find("tbody");
         
         let projects = data.projects;
         let projectLength = projects.length;
+        
         let clients = data.clients;
         let clientLength = clients.length;
         
@@ -36,6 +37,7 @@ $(document).ready(() =>{
             const tDeadline = document.createElement("td");
             const tClient = document.createElement("td");
             
+            //Date format
             const deadlineFromDb = projects[i].deadline;
             const jsDate = new Date(deadlineFromDb[0], deadlineFromDb[1] - 1, deadlineFromDb[2].substr(0, 2), deadlineFromDb[2].substr(3, 2), deadlineFromDb[2].substr(6, 2), deadlineFromDb[2].substr(9, 2));
             const readableDate = jsDate.getDate() + "/" + jsDate.getMonth() + "/" + jsDate.getFullYear();
@@ -81,19 +83,28 @@ $(document).ready(() =>{
         let sortableHeader = document.getElementsByClassName("sortable");
         
         $(sortableHeader).click(function(){
-            var projectTable = $(this).parents('table').eq(0)
-            var projectRows = projectTable.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
-            this.asc = !this.asc
-            if (!this.asc){projectRows = projectRows.reverse()}
-            for (var i = 0; i < projectRows.length; i++){projectTable.append(projectRows[i])}
+            var projectTable = $(this).parents("table").eq(0);
+            var projectRows = projectTable.find("tr:gt(0)").toArray().sort(comparer($(this).index()));
+
+            this.asc = !this.asc;
+
+            if (!this.asc){
+                projectRows = projectRows.reverse();
+            }
+            for (var i = 0; i < projectRows.length; i++){
+                projectTable.append(projectRows[i]);
+            }
         })
         function comparer(index) {
             return function(a, b) {
-                var valA = getCellValue(a, index), valB = getCellValue(b, index)
-                return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+                var valA = getCellValue(a, index), valB = getCellValue(b, index);
+
+                return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB);
             }
         }
-        function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
+        function getCellValue(row, index){ 
+            return $(row).children("td").eq(index).text();
+        }
         
         
         //Edit project
@@ -110,6 +121,7 @@ $(document).ready(() =>{
                 
                 $("form").submit(function(event){
                     event.preventDefault();
+
                     const id = data.response.id;
                     
                     var dataFromForm = {
@@ -142,6 +154,7 @@ $(document).ready(() =>{
         //Delete project
         $(".deleteBtn").on("click", (event) =>{
             event.preventDefault();
+            
             const id = $(event.currentTarget).attr("id");
             
             if(confirm("Er du sikker på du vil slette denne opgave?")){

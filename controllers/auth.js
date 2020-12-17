@@ -1,17 +1,17 @@
-const crypto = require('crypto');
+const crypto = require("crypto");
 
-const bcrypt = require('bcryptjs');
-const nodemailer = require('nodemailer');
-const nodemailerSendgrid = require('nodemailer-sendgrid');
+const bcrypt = require("bcryptjs");
+const nodemailer = require("nodemailer");
+const nodemailerSendgrid = require("nodemailer-sendgrid");
 const session = require("express-session");
 
 
-const Employee = require('../models/employee');
+const Employee = require("../models/employee");
 
 const saltRounds = 12;
 
-const rootPathHome = "/home/luca/Skole/datamatiker/rabotnik-insight";
-const rootPathRabotnik = "/home/luca/Skole/afsluttende-projekt/rabotnik-insight";
+const rootPath = require("../variables/root-path.json").path;
+console.log(rootPath);
 
 /*const transport = nodemailer.createTransport(
   nodemailerSendgrid({
@@ -20,33 +20,30 @@ const rootPathRabotnik = "/home/luca/Skole/afsluttende-projekt/rabotnik-insight"
 );*/
 
 exports.getIndex = (req,res) =>{
-  return res.sendFile("/public/html/index.html", {root: rootPathRabotnik});
+  return res.sendFile("/public/html/index.html", {root: rootPath});
 }
 
 exports.getFront = (req, res) =>{
-  return res.sendFile("/public/html/frontpage.html", {root: rootPathRabotnik});
+  return res.sendFile("/public/html/frontpage.html", {root: rootPath});
 }
 
 exports.postLogin = (req, res) =>{
   const email = req.body.email;
   const password = req.body.password;
-  console.log("Just inside postlogin");
-  console.log(email);
 
   Employee.findOne({where:{email: email}})
   .then(employee => {
-    console.log(employee);
 
     if(!employee){
       console.log("Employee dosen't exist");
-      return res.sendFile("/public/html/index.html", {root: rootPathRabotnik});
+      return res.sendFile("/public/html/index.html", {root: rootPath});
     }
     bcrypt
     .compare(password, employee.password)
     .then(match =>{
       if(match){
         console.log(employee);
-        req.session.isLoggedIn = true;
+        req.session.isLoggedIn = true; // DO I NEED THIS?
         req.session.employee = employee;
         return req.session.save(error =>{
           console.log(error);
@@ -55,7 +52,7 @@ exports.postLogin = (req, res) =>{
       }
       else{
         console.log("Password dosen't match that in database ", match);
-        return res.sendFile("/public/html/index.html", {root: rootPathRabotnik});
+        return res.sendFile("/public/html/index.html", {root: rootPath});
       }
     })
     .catch(error =>{

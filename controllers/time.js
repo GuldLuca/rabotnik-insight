@@ -3,11 +3,10 @@ const Task = require("../models/task");
 const Project = require("../models/project");
 const Client = require("../models/client");
 
-const rootPathHome = "/home/luca/Skole/datamatiker/rabotnik-insight";
-const rootPathRabotnik = "/home/luca/Skole/afsluttende-projekt/rabotnik-insight";
+const rootPath = require("../variables/root-path.json").path;
 
 exports.getTimePage = (req, res) =>{
-    return res.sendFile("/public/html/time.html", {root: rootPathRabotnik});
+    return res.sendFile("/public/html/time.html", {root: rootPath});
 }
 
 exports.getTime = async (req, res) =>{
@@ -15,7 +14,6 @@ exports.getTime = async (req, res) =>{
     const projects = await Project.findAll();
     const clients = await Client.findAll();
     const employees = await Employee.findAll();
-    console.log("Here");
 
     const employeeTasks = await Employee.findAll({
         include:[{
@@ -27,10 +25,7 @@ exports.getTime = async (req, res) =>{
 
     if(tasks.length > 0){
 
-        console.log("And here");
-
         if(projects.length > 0 && clients.length >0 && employees.length>0){
-            console.log("What here");
 
             return res.send({tasks, projects, clients, employees, employeeTasks});
         }
