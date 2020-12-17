@@ -3,10 +3,11 @@ const Task = require("../models/task");
 const Project = require("../models/project");
 const Client = require("../models/client");
 
-const rootPath = require("../variables/root-path.json").path;
+const rPath = "/home/luca/Skole/afsluttende-projekt/rabotnik-insight";
+const hPath = "/home/luca/Skole/datamatiker/rabotnik-insight"
 
 exports.getEmployeePage = (req, res) =>{
-    return res.sendFile("/public/html/profile.html", {root: rootPath});
+    return res.sendFile("/public/html/profile.html", {root: rPath});
 }
 
 exports.getEmployeeApi = async (req, res) =>{

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/styles.css">
     <title>Frontpage</title>
 </head>
-<body>
+<body id="frontpage">
     <div class="top-navigation">
         <a class="active" href="/html/frontpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
         <a href="/html/profile.html"><i class="fas fa-user"></i> Medarbejder</a>
@@ -17,6 +17,9 @@
         <a href="/html/all-tasks.html"><i class="fas fa-clipboard-list"></i> Tasks</a>
         <a href="/html/rabotnik.html"><i class="fas fa-fist-raised"></i> Rabotnik</a>
         <a href="/html/calendar.html"><i class="far fa-calendar-alt"></i> Kalender</a>
-      </div>
+        <form action="/logout" method="POST">
+            <button type="submit"id="logout-btn">Log ud</button>
+        </form>
+    </div>
 </body>
 </html>

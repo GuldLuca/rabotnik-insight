@@ -10,17 +10,20 @@
 <body>
     <div class="top-navigation">
         <a href="/html/frontpage.html"><i class="fa fa-fw fa-home"></i> Home</a>
-        <a class="active" href="/html/profile.html"><i class="fas fa-user"></i>Medarbejder</a>
+        <a class="active" href="/html/profile.html"><i class="fas fa-user"></i> Medarbejder</a>
         <a href="/html/time.html"><i class="far fa-clock"></i> Timer</a>
         <a href="/html/allclients.html"><i class="fas fa-user-friends"></i> Kunder</a>
         <a href="/html/all-projects.html"><i class="fas fa-window-restore"></i> Opgaver</a>
         <a href="/html/all-tasks.html"><i class="fas fa-clipboard-list"></i> Tasks</a>
         <a href="/html/rabotnik.html"><i class="fas fa-fist-raised"></i> Rabotnik</a>
         <a href="/html/calendar.html"><i class="far fa-calendar-alt"></i> Kalender</a>
+        <form action="/logout" method="POST">
+            <button type="submit"id="logout-btn">Log ud</button>
+        </form>    
     </div>
     
-    <div class="modal-button">
-        <button onclick="document.getElementById('modal-info').style.display='block'">Oplysninger</button>
+    <div class="modal-button-profile">
+        <button onclick="document.getElementById('modal-info').style.display='block'">Oplysninger<i class="fas fa-angle-down"></i></button>
     </div>
 
     <div id="modal-info" class="modal">
@@ -32,6 +35,7 @@
                         <th>Fornavn</th>
                         <th>Efternavn</th>
                         <th>E-mail</th>
+                        <th></th>
                     </tr>
                 </tbody>
             </table> 
@@ -39,7 +43,7 @@
 
         <button type="button" onclick="document.getElementById('modal-info').style.display='none'" class="cancel-btn">Luk</button>
 
-        <button onclick="document.getElementById('modal-edit-info').style.display='block'">Ret oplysninger</button>
+        <button onclick="document.getElementById('modal-edit-info').style.display='block'" class="submit-btn">Ret oplysninger</button>
 
         <div id="modal-edit-info" class="modal">
             <form action="/edit-info" method="PUT">
@@ -62,8 +66,8 @@
         </div>
     </div>
 
-    <div class="modal-button">
-        <button onclick="document.getElementById('modal-tasks').style.display='block'">Tasks</button>
+    <div class="modal-button-profile">
+        <button onclick="document.getElementById('modal-tasks').style.display='block'">Tasks<i class="fas fa-angle-down"></i></button>
     </div>
 
     <div id="modal-tasks" class="modal">
@@ -85,8 +89,8 @@
 
     </div>
 
-    <div class="modal-button">
-        <button onclick="document.getElementById('modal-time').style.display='block'">Timer</button>
+    <div class="modal-button-profile">
+        <button onclick="document.getElementById('modal-time').style.display='block'">Timer<i class="fas fa-angle-down"></i></button>
     </div>
 
     <div id="modal-time" class="modal">
@@ -102,7 +106,7 @@
             </table> 
         </div>
         <button type="button" onclick="document.getElementById('modal-time').style.display='none'" class="cancel-btn">Luk</button>
-        <button onclick="document.getElementById('modal-add-time').style.display='block'">Tilføj Timer</button>
+        <button onclick="document.getElementById('modal-add-time').style.display='block'" class="submit-btn">Tilføj Timer</button>
         
         <div id="modal-add-time" class="modal">
             <form action="/add-time" method="POST">

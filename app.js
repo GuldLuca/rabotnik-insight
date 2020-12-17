@@ -19,6 +19,7 @@ app.use(bodyParser.json());
 
 //Static route
 app.use(express.static(path.join(__dirname, "public")));
+console.log(__dirname);
 
 //Session + cookie setup
 

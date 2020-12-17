@@ -1,52 +1,197 @@
-.modal{
-    display: none;
+:root{
+  --main-color: #43516C;
+  --secondary-color: #c02c4c;
+  --third-color: #438664;
+  --main-font: Arial, Helvetica, sans-serif;
+}
+
+body{
+  font-family: var(--main-font);
+  background-color: #E8E8E8;
+}
+
+.container{
+  background-color: var(--main-color);
+  color: white;
+  padding: 9px;
+}
+
+.container button{
+  float: right;
+}
+
+.container input{
+  border-style: solid;
+  border-color: var(--main-color);
+  border-radius: 0;
+  margin-right: 55px;
 }
 
 .top-navigation {
-    width: 100%;
-    padding: 0;
-    float: left;
-    background-color: #555;
-    overflow: auto;
-  }
+  width: 100%;
+  height: auto;
+  padding: 0;
+  float: left;
+  background-color: var(--main-color);
+  overflow: auto;
+}
+
+.top-navigation a {
+  float: left;
+  text-align: center;
+  color: white;
+  text-decoration: none;
+  font-size: 17px;
+  margin: 20px;
+  margin-bottom: 14px;
+}
+
+.top-navigation a:hover {
+  cursor: pointer;
+}
+
+.active {
+  border-bottom-color: var(--secondary-color);
+  border-bottom-style: solid;
+  padding-bottom: 8px;
   
-  /* Navbar links */
-  .top-navigation a {
-    float: left;
-    text-align: center;
-    padding: 12px;
-    color: white;
-    text-decoration: none;
-    font-size: 17px;
-  }
-  
-  /* Navbar links on mouse-over */
-  .top-navigation a:hover {
-    background-color: #000;
-  }
-  
-  /* Current/active navbar link */
-  .active {
-    background-color: #4CAF50;
-  }
+}
 
-  #clientTable{
-    width: 100%;
-    font-family: Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-  }
+table{
+  width: 100%;
+  height: auto;
+  border-collapse: collapse;
+}
 
-  #table-headers{
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #4CAF50;
-    color: white;
-  }
+th{
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: var(--third-color);
+  color: white;
+}
 
-  #clientTable td, #clientTable th{
-    border: 1px solid #ddd;
-    padding: 8px;
-  }
+td, th{
+  padding: 8px;
+}
 
-  #clientTable tr:nth-child(even){background-color: #c2c2c2;}
+tr:nth-child(even){
+  background-color: #dddddd;
+}
+
+tr:nth-child(odd){
+  background-color: rgb(250, 250, 250);
+}
+
+tr button{
+  color: #E8E8E8;
+  border-style: solid;
+  width: 50%;
+  height: auto;
+  padding-bottom: 7px;
+  padding-top: 7px;
+  cursor: pointer;
+}
+
+.editBtn{
+  background-color: var(--main-color);
+  border-color: var(--main-color);
+}
+
+.deleteBtn{
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.top-navigation button{
+  background-color: var(--secondary-color);
+  border: none;
+  color: white;
+  padding: 12px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  height: auto;
+  float: right;
+  margin-top: 12px;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+.modal{
+  display: none;
+  width: 100%;
+  overflow: hidden;
+}
+
+.modal th{
+  background-color: var(--main-color);
+}
+
+.modal button{
+  cursor: pointer;
+  border-style: solid;
+  padding: 7px;
+  margin-top: 9px;
+  text-align:center;
+  color: white;
+}
+
+.modal .cancel-btn{
+  background-color:white;
+  border-color: white;
+  color: var(--main-color);
+  float: right;
+}
+
+.modal .submit-btn{
+  background-color: var(--third-color);
+  border-color: var(--third-color);
+  color: white;
+}
+
+.modal .add-btn{
+  background-color: var(--third-color);
+  border-color: var(--third-color);
+  color: white;
+}
+
+.modal .edit-btn{
+  background-color: var(--third-color);
+  border-color: var(--third-color);
+  color: white;
+}
+
+.modal-button button{
+  cursor: pointer;
+  color: white;
+  background-color: var(--third-color);
+  border-color: var(--third-color);
+  border-style: solid;
+  padding: 7px;
+  float: right;
+  margin-top: 9px;
+}
+
+.modal-button-profile{
+  width: 100%;
+}
+
+.modal-button-profile button{
+  cursor: pointer;
+  color: var(--main-color);
+  background-color: white;
+  border-color: white;
+  border-style: solid;
+  padding: 7px;
+  width: 100%;
+  margin-top: 9px;
+  text-align:left;
+  outline: none;
+  display: inline-block;
+}
+
+.modal-button-profile button i{
+  float: right;
+  padding-right: 7px;
+}

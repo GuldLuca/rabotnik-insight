@@ -2,10 +2,11 @@ const Client = require("../models/client");
 const Project = require("../models/project");
 const DB = require("../models/database");
 
-const rootPath = require("../variables/root-path.json").path;
+const rPath = "/home/luca/Skole/afsluttende-projekt/rabotnik-insight";
+const hPath = "/home/luca/Skole/datamatiker/rabotnik-insight"
 
 exports.getProjectPage = (req, res) =>{
-    return res.sendFile("/public/html/all-projects.html", {root: rootPath});
+    return res.sendFile("/public/html/all-projects.html", {root: rPath});
 }
 
 exports.getProjectApi = async (req,res) =>{

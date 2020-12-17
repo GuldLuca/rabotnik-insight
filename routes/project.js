@@ -10,7 +10,7 @@ router.get("/opgaver", projectController.getProjectPage);
 
 router.post("/add-project", projectController.postAddProject);
 
-//router.post("/delete-project", projectController.postDeleteClients);
+router.post("/delete-project/:id", projectController.postDeleteProject);
   
 router.get("/api/opgaver/edit/:id", projectController.getEditProject);
 

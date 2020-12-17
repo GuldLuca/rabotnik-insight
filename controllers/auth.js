@@ -1,30 +1,18 @@
-const crypto = require("crypto");
-
 const bcrypt = require("bcryptjs");
-const nodemailer = require("nodemailer");
-const nodemailerSendgrid = require("nodemailer-sendgrid");
-const session = require("express-session");
-
 
 const Employee = require("../models/employee");
 
 const saltRounds = 12;
 
-const rootPath = require("../variables/root-path.json").path;
-console.log(rootPath);
-
-/*const transport = nodemailer.createTransport(
-  nodemailerSendgrid({
-      apiKey: process.env.SENDGRID_API_KEY
-  })
-);*/
+const rPath = "/home/luca/Skole/afsluttende-projekt/rabotnik-insight";
+const hPath = "/home/luca/Skole/datamatiker/rabotnik-insight"
 
 exports.getIndex = (req,res) =>{
-  return res.sendFile("/public/html/index.html", {root: rootPath});
+  return res.sendFile("/public/html/index.html", {root: rPath});
 }
 
 exports.getFront = (req, res) =>{
-  return res.sendFile("/public/html/frontpage.html", {root: rootPath});
+  return res.sendFile("/public/html/frontpage.html", {root: rPath});
 }
 
 exports.postLogin = (req, res) =>{
@@ -36,13 +24,12 @@ exports.postLogin = (req, res) =>{
 
     if(!employee){
       console.log("Employee dosen't exist");
-      return res.sendFile("/public/html/index.html", {root: rootPath});
+      return res.sendFile("/public/html/index.html", {root: rPath});
     }
     bcrypt
     .compare(password, employee.password)
     .then(match =>{
       if(match){
-        console.log(employee);
         req.session.isLoggedIn = true; // DO I NEED THIS?
         req.session.employee = employee;
         return req.session.save(error =>{
@@ -52,7 +39,7 @@ exports.postLogin = (req, res) =>{
       }
       else{
         console.log("Password dosen't match that in database ", match);
-        return res.sendFile("/public/html/index.html", {root: rootPath});
+        return res.sendFile("/public/html/index.html", {root: rPath});
       }
     })
     .catch(error =>{
@@ -87,16 +74,6 @@ exports.postSignup = async (req, res) =>{
             password: hashedPassword  
           });
           newEmployee.save();
-          /*transport.sendMail({
-            from: "info@rabotnik.coop",
-            to: email,
-            subject: "Sign-up to Rabotnik Insight",
-            text: "Hi, you just signed up to Rabotnik Insight. You can now use the system by logging in."
-          }, (error, info) =>{
-            console.log(error);
-            console.log(info.envelope);
-            console.log(info.messageId);
-          });*/
           return res.redirect("/");
         }
       }
@@ -112,5 +89,13 @@ exports.postSignup = async (req, res) =>{
   else{
     return res.status(400).send({response: "Please enter something"});
   }
-};
+}
+
+exports.postLogout = (req, res) =>{
+  req.session.destroy(error =>{
+    console.log(error);
+    req.isLoggedIn = false;
+    return res.sendFile("/public/html/index.html", {root: rPath});
+  })
+}
 

@@ -1,6 +1,7 @@
 const Client = require("../models/client");
 
-const rootPath = require("../variables/root-path.json").path;
+const rPath = "/home/luca/Skole/afsluttende-projekt/rabotnik-insight";
+const hPath = "/home/luca/Skole/datamatiker/rabotnik-insight"
 
 exports.getClientsApi = async (req,res) =>{
     const clients = await Client.findAll();
@@ -15,7 +16,7 @@ exports.getClientsApi = async (req,res) =>{
 }
 
 exports.getClientsPage = (req, res) =>{
-    return res.sendFile("/public/html/allclients.html", {root: rootPath});
+    return res.sendFile("/public/html/allclients.html", {root: rPath});
 }
 
 exports.postAddClients = async (req, res) =>{
