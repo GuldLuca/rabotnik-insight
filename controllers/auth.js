@@ -4,8 +4,7 @@ const Employee = require("../models/employee");
 
 const saltRounds = 12;
 
-const rPath = "/home/luca/Skole/afsluttende-projekt/rabotnik-insight";
-const hPath = "/home/luca/Skole/datamatiker/rabotnik-insight"
+const rPath = require("../variables/root-path.json").path;
 
 exports.getIndex = (req,res) =>{
   return res.sendFile("/public/html/index.html", {root: rPath});

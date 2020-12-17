@@ -3,8 +3,7 @@ const Project = require("../models/project");
 const Task = require("../models/task");
 const Employee = require("../models/employee");
 
-const rPath = "/home/luca/Skole/afsluttende-projekt/rabotnik-insight";
-const hPath = "/home/luca/Skole/datamatiker/rabotnik-insight"
+const rPath = require("../variables/root-path.json").path;
 
 exports.getTaskPage = (req, res) =>{
     return res.sendFile("/public/html/all-tasks.html", {root: rPath});

@@ -40,6 +40,12 @@ $(document).ready(() =>{
             $(editBtn).attr("id", clients[i].id);
             $(deleteBtn).attr("id", clients[i].id);
 
+            $(tName).attr("id", "t-name");
+            $(tCvr).attr("id", "t-cvr");
+            $(tEmail).attr("id", "t-email");
+            $(tPhone).attr("id", "t-phone");
+            $(tContact).attr("id", "t-contact");
+
             tableRow.append(tName);
             tableRow.append(tCvr);
             tableRow.append(tEmail);
@@ -85,7 +91,36 @@ $(document).ready(() =>{
             event.preventDefault();
 
             const id = $(event.currentTarget).attr("id");
-            
+
+            const currentRow = event.currentTarget.parentNode.rowIndex;
+            console.log(currentRow);
+
+            const inputName = document.getElementById("edit-name");
+            const inputCvr = document.getElementById("edit-cvr");
+            const inputEmail = document.getElementById("edit-email");
+            const inputPhone = document.getElementById("edit-phone");
+            const inputContact = document.getElementById("edit-contact");
+
+            inputName.value = "";
+            inputCvr.value = "";
+            inputEmail.value = "";
+            inputPhone.value = "";
+            inputContact.value = "";
+
+            const tName = document.getElementById("t-name");
+            const tCvr = document.getElementById("t-cvr");
+            const tEmail = document.getElementById("t-email");
+            const tPhone = document.getElementById("t-phone");
+            const tContact = document.getElementById("t-contact");
+
+            inputName.value = tName.innerHTML;
+            inputCvr.value = tCvr.innerHTML;
+            inputEmail.value = tEmail.innerHTML;
+            inputPhone.value = tPhone.innerHTML;
+            inputContact.value = tContact.innerHTML;
+
+        
+
             $.ajax({
                 url: "/api/kunder/edit/" + id,
                 type: "GET",

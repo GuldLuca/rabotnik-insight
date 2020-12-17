@@ -9,9 +9,12 @@
 </head>
 <body>
 
+    <div class="logo-img">
+        <img src="../img/Screenshot from 2020-12-17 21-56-44.png" alt="rabotnik-logo">
+    </div>
     <div class="modal-buttons">
-        <button onclick="document.getElementById('modal-signup').style.display='block'">Sign Up</button>
-        <button onclick="document.getElementById('modal-login').style.display='block'">Login</button>
+        <button onclick="document.getElementById('modal-login').style.display='block'" id="login-btn">Login</button>
+        <button onclick="document.getElementById('modal-signup').style.display='block'" id="signup-btn">Sign Up</button>
     </div>
     <div id="modal-signup" class="modal">
         <form action="/signup" method="POST">
@@ -20,10 +23,10 @@
                 <input type="text" name="email" id="signup-e-mail">
     
                 <label for="password"><b>Password</b></label>
-                <input type="text" name="password" id="signup-password">
+                <input type="password" name="password" id="signup-password">
 
                 <label for="passwordrepeat"><b>Repeat Password</b></label>
-                <input type="text" name="passwordrepeat" id="signup-password-repeat">
+                <input type="password" name="passwordrepeat" id="signup-password-repeat">
 
                 <div class="buttons">
                     <button type="button" onclick="document.getElementById('modal-signup').style.display='none'" class="cancel-btn">Cancel</button>
@@ -39,7 +42,7 @@
                 <input type="text" name="email" id="login-e-mail">
     
                 <label for="password"><b>Password</b></label>
-                <input type="text" name="password" id="login-password">
+                <input type="password" name="password" id="login-password">
 
                 <div class="buttons">
                     <button type="button" onclick="document.getElementById('modal-login').style.display='none'" class="cancel-btn">Cancel</button>

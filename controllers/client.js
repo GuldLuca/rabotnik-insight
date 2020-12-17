@@ -1,7 +1,6 @@
 const Client = require("../models/client");
 
-const rPath = "/home/luca/Skole/afsluttende-projekt/rabotnik-insight";
-const hPath = "/home/luca/Skole/datamatiker/rabotnik-insight"
+const rPath = require("../variables/root-path.json").path;
 
 exports.getClientsApi = async (req,res) =>{
     const clients = await Client.findAll();
