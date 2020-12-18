@@ -3,14 +3,19 @@ const Task = require("../models/task");
 const Project = require("../models/project");
 const Client = require("../models/client");
 
+//Root path
 const rPath = require("../variables/root-path.json").path;
 
+//Get profile.html
 exports.getEmployeePage = (req, res) =>{
     return res.sendFile("/public/html/profile.html", {root: rPath});
 }
 
+//Get api for employee
+//Async function
 exports.getEmployeeApi = async (req, res) =>{
     const employee = await Employee.findOne({where: {email: req.session.employee.email}});
+    //Get rows from join table
     const employeeTasks = await Employee.findAll({
         include:[{
             model: Task,
@@ -21,6 +26,7 @@ exports.getEmployeeApi = async (req, res) =>{
     const projects = await Project.findAll();
     const clients = await Client.findAll();
 
+    //If session persists and data is accessable send to api
     if(req.session.employee && employee && employeeTasks && projects && clients){
         return res.send({employee, employeeTasks, projects, clients});
     }
@@ -32,6 +38,8 @@ exports.getEmployeeApi = async (req, res) =>{
     }
 }
 
+//Put employee info
+//Async function
 exports.putEditEmployeeInfo = async(req, res) =>{
     const currentEmail = req.body.currentEmail;
     const firstName = req.body.firstName;
@@ -49,6 +57,7 @@ exports.putEditEmployeeInfo = async(req, res) =>{
                     email: email
                 },{where: {email: currentEmail}})
                 .then(function(updatedEmployee) {
+                    //Send back updated employee to api for success
                     res.json(updatedEmployee);
                   })
             }
@@ -64,10 +73,6 @@ exports.putEditEmployeeInfo = async(req, res) =>{
         res.status(400).send({response: "Please enter all info"});
     }
 
-
-}
-
-exports.getEmployeeTasks = (req, res) =>{
 
 }
 

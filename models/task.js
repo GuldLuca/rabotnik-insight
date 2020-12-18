@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const DB = require("./database");
 
-//Defining Project table in database
+//Defining task table in database with attributes
 const Task = DB.define("task", {
   id: {
     type: Sequelize.INTEGER,

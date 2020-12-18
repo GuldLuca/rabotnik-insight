@@ -3,17 +3,22 @@ const Project = require("../models/project");
 const Task = require("../models/task");
 const Employee = require("../models/employee");
 
+//Root path
 const rPath = require("../variables/root-path.json").path;
 
+//get all-tasks.html
 exports.getTaskPage = (req, res) =>{
     return res.sendFile("/public/html/all-tasks.html", {root: rPath});
 }
 
+//Get api for tasks
+//Async function
 exports.getTaskApi = async (req,res) =>{
     const tasks = await Task.findAll();
     const projects = await Project.findAll();
     const clients = await Client.findAll();
     const employees = await Employee.findAll();
+    //get join table
     const employeeTasks = await Employee.findAll({
         include:[{
             model: Task,
@@ -37,6 +42,8 @@ exports.getTaskApi = async (req,res) =>{
     }
 }
 
+//Post add task
+//Async function
 exports.postAddTask = async (req, res) =>{
     const title = req.body.title;
     const description = req.body.description;
@@ -48,16 +55,19 @@ exports.postAddTask = async (req, res) =>{
     const trueVal = 1;
     const falseVal = 0;
 
+    //If done is checked
     if(title && description && time && done && project){
         try{
             const projectFromDb = await Project.findOne({where: {id: project}});
             const employeeFromDb = await Employee.findOne({where: {id : employee}});
+            //Create task with done true converted to 1 for query language
             const task = Task.create({
                 title: title,
                 description: description,
                 time: time,
                 done: trueVal
             }).then( async task =>{
+                //make relation to project and join employee and task
                 await task.setProject(projectFromDb);
                 await task.addEmployee(employeeFromDb);
             })
@@ -68,10 +78,12 @@ exports.postAddTask = async (req, res) =>{
             return res.redirect("/tasks");
         }
     }
+    //If done isn't checked
     if(!done){
         try{
             const projectFromDb = await Project.findOne({where: {id: project}});
             const employeeFromDb = await Employee.findOne({where: {id: employee}});
+            //Send falseVal which is 0 to database for false value
             const task = Task.create({
                 title: title,
                 description: description,
@@ -93,6 +105,8 @@ exports.postAddTask = async (req, res) =>{
     }
 }
 
+//Get specific task for edit
+//Async function
 exports.getEditTask = async (req, res) =>{
     const id = req.params.id;
     const task = await Task.findOne({where:{id: id}});
@@ -105,6 +119,8 @@ exports.getEditTask = async (req, res) =>{
     }
 }
 
+//put edit task
+//Async function
 exports.putEditTask = async (req, res) =>{
     const title = req.body.title;
     const description = req.body.description;
@@ -172,7 +188,8 @@ exports.putEditTask = async (req, res) =>{
 
 }
 
-exports.deleteTask = async (req, res) =>{
+//Delete task
+exports.deleteTask = (req, res) =>{
     const id = req.params.id;
     Task.destroy({where: {id: id}}).then(deletedTask =>{
         res.json(deletedTask);
