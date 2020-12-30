@@ -4,6 +4,7 @@ const clientController = require("../controllers/client");
 
 const router = express.Router();
 
+//Routes and what to happen when hit
 router.get("/api/kunder", clientController.getClientsApi);
 
 router.get("/kunder", clientController.getClientsPage);

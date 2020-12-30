@@ -4,6 +4,8 @@ const projectController = require("../controllers/project");
 
 const router = express.Router();
 
+
+//Routes and what to happen when hit
 router.get("/api/opgaver", projectController.getProjectApi);
 
 router.get("/opgaver", projectController.getProjectPage);

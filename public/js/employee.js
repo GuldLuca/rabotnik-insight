@@ -6,6 +6,7 @@ $(document).ready(() =>{
     })
     .done(data=>{
         
+        //Get elements from HTML file
         let infoTable = $(".infoList");
         let infoTbody = infoTable.find("tbody");
         
@@ -28,8 +29,10 @@ $(document).ready(() =>{
         
         infoTbody.append(tableRow);
         
-        //Edit info
+        //Edit info when form is submitted
         $("form").submit(function(event){
+
+            //prevent default handling of requests in browser
             event.preventDefault();
 
             const currentEmail = employee.email;
@@ -41,6 +44,7 @@ $(document).ready(() =>{
                 "currentEmail" : currentEmail
             }
             
+            //Edit put api
             $.ajax({
                 url: "/edit-info",
                 type: "PUT",
@@ -68,11 +72,13 @@ $(document).ready(() =>{
         let projectClientIds = {};
         const clientNames = {};
 
+        //fill objects from current project
         for(let i = 0; i<projects.length; i++){
             projectNames[[projects[i].id]] = projects[i].title;
             projectClientIds[[projects[i].id]] = projects[i].clientId;
         }
 
+        //Fill client objects from current client
         for(let i = 0; i<clients.length; i++){
             clientNames[[clients[i].id]] = clients[i].name;
         }
@@ -89,6 +95,7 @@ $(document).ready(() =>{
         const tProject = document.createElement("td");
         const tClient = document.createElement("td");
         
+        //For loop with employeetasks and fill table with data
         for(let i = 0; i<allEmployeeTasks.length; i++){
             if(allEmployeeTasks[i].lastName == employee.lastName){
                 employeeTasks.push(allEmployeeTasks[i]);
@@ -96,6 +103,7 @@ $(document).ready(() =>{
                 let tasks = allEmployeeTasks[i].tasks;
                 let taskLength = allEmployeeTasks[i].tasks.length;
                 
+                //Get client id from project id on current task
                 for(let i = 0; i<taskLength; i++){
                     
                     tTitle.innerText = tasks[i].title;
@@ -134,6 +142,7 @@ $(document).ready(() =>{
         const timeDate = document.createElement("td");
         const timeTime = document.createElement("td");
 
+        // Fill table with time data from employee and tasks
         for(let i = 0; i<allEmployeeTasks.length; i++){
             if(allEmployeeTasks[i].lastName == employee.lastName){
                 employeeTasks.push(allEmployeeTasks[i]);

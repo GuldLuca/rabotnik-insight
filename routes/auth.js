@@ -4,6 +4,8 @@ const authController = require("../controllers/auth");
 
 const router = express.Router();
 
+
+//Routes and what to happen when hit
 router.get("/", authController.getIndex);
 
 router.get("/frontpage", authController.getFront);

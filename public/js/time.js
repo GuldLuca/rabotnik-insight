@@ -6,6 +6,8 @@ $(document).ready(() =>{
         dataType: "json"
     })
     .done(data =>{
+
+        //Data from response
         let tasks = data.tasks;
         let taskLength = tasks.length;
 
@@ -21,9 +23,11 @@ $(document).ready(() =>{
         let employeeTasks = data.employeeTasks;
         let employeeTasksLength = employeeTasks.length;
 
+        //Get elements from DOM
         let timeTable = $(".timeList");
         let timeTbody = timeTable.find("tbody");
 
+        //Fill table
         for(i = 0; i<taskLength;i++){
 
             const tableRow = document.createElement("tr");
@@ -47,8 +51,5 @@ $(document).ready(() =>{
             timeTbody.append(tableRow);
 
         }
-
-
     })
-
 })

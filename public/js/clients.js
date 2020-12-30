@@ -78,7 +78,7 @@ $(document).ready(() =>{
             var clientTable = $(this).parents("table").eq(0);
 
             //Get rows from table in an array which is sorted and compared with index
-            var clientRows = clientTable.find("tr:gt(0)").toArray().sort(comparer($(this).index()));
+            var clientRows = clientTable.find("tr:gt(0)").toArray().sort(compareIt($(this).index()));
 
             //Change asc to desc
             this.asc = !this.asc;
@@ -95,14 +95,18 @@ $(document).ready(() =>{
 
         //Comparing function takes in an index
         //Returns a function that takes in two parameters
-        function comparer(index) {
+        function compareIt(index) {
 
             return function(a, b) {
 
                 //Gets cellvalue of a and b parameters
-                var valA = getCellValue(a, index), valB = getCellValue(b, index);
+                var valA = getCellValue(a, index);
+                var valB = getCellValue(b, index);
 
-                //Returns 
+                //Returns conditional operator. Condition + question mark + expression to be executed if condition is true + colon + expression to be executed if condition is false
+                //If true return valA minus ValB
+                //If false return valA as string compared to ValB
+                //Locale is the current usersettings
                 return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB);
             }
         }
@@ -117,26 +121,20 @@ $(document).ready(() =>{
 
         //Edit table row
         $(".editBtn").on("click", (event) => {
+            //Display modal edit-elements
             document.getElementById("modal-edit-client").style.display="block";
             
+            //prevent default handling of requests by browser
             event.preventDefault();
 
+            //Id is the current event clicked
             const id = $(event.currentTarget).attr("id");
-
-            const currentRow = event.currentTarget.parentNode.rowIndex;
-            console.log(currentRow);
 
             const inputName = document.getElementById("edit-name");
             const inputCvr = document.getElementById("edit-cvr");
             const inputEmail = document.getElementById("edit-email");
             const inputPhone = document.getElementById("edit-phone");
             const inputContact = document.getElementById("edit-contact");
-
-            inputName.value = "";
-            inputCvr.value = "";
-            inputEmail.value = "";
-            inputPhone.value = "";
-            inputContact.value = "";
 
             const tName = document.getElementById("t-name");
             const tCvr = document.getElementById("t-cvr");
@@ -149,21 +147,23 @@ $(document).ready(() =>{
             inputEmail.value = tEmail.innerHTML;
             inputPhone.value = tPhone.innerHTML;
             inputContact.value = tContact.innerHTML;
-
         
-
+            //Ajax API call
             $.ajax({
                 url: "/api/kunder/edit/" + id,
                 type: "GET",
                 data: {id: id}
             }).done(data=>{
 
+                //When form is submitted
                 $("form").submit(function(event){
 
+                    //Prevent default handling of requests by browser
                     event.preventDefault();
 
                     const id = data.response.id;
 
+                    //What to send in PUT request
                     var dataFromForm = {
                             "name" : $("input[id=edit-name]").val(),
                             "cvr" : $("input[id=edit-cvr]").val(),
@@ -172,7 +172,8 @@ $(document).ready(() =>{
                             "contact" : $("input[id=edit-contact]").val(),
                             "id" : data.response.id
                     }
-                       
+
+                    //Api put request   
                     $.ajax({
                         url: "/edit-client",
                         type: "PUT",
@@ -180,6 +181,7 @@ $(document).ready(() =>{
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify(dataFromForm),
                         success: function (data){
+                            //When success refresh page
                             window.location = window.location;
                         },
                         error: function(e){
@@ -197,6 +199,7 @@ $(document).ready(() =>{
             
             const id = $(event.currentTarget).attr("id");
             
+            //Confirm deletion
             if(confirm("Er du sikker på du vil slette denne kunde?")){
                 $.ajax({
                     url: "/delete-client/" + id,

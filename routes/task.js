@@ -4,6 +4,7 @@ const taskController = require("../controllers/task");
 
 const router = express.Router();
 
+//Routes and what to happen when hit
 router.get("/api/tasks", taskController.getTaskApi);
 
 router.get("/tasks", taskController.getTaskPage);
