@@ -128,6 +128,7 @@ exports.putEditTask = async (req, res) =>{
     const done = req.body.done;
     const project = req.body.project;
     const client = req.body.client;
+    const employee = req.body.employee;
     const id = req.body.id;
 
     const trueVal = 1;
@@ -137,6 +138,7 @@ exports.putEditTask = async (req, res) =>{
 
         try{
             const taskExists = await Task.findOne({where: {id: id}});
+            const employeeFromDb = await Employee.findOne({where: {id : employee}});
             if(taskExists){
                 taskExists.update({
                     title: title,
@@ -146,8 +148,9 @@ exports.putEditTask = async (req, res) =>{
                     project: project,
                     client : client
                 },{where: {id: id}})
-                .then(function(updatedTask) {
+                .then( async function(updatedTask) {
                     res.json(updatedTask);
+                    await updatedTask.addEmployee(employeeFromDb);
                   })
             }
             else{
@@ -161,6 +164,7 @@ exports.putEditTask = async (req, res) =>{
     else if(!done){
         try{
             const taskExists = await Task.findOne({where: {id: id}});
+            const employeeFromDb = await Employee.findOne({where: {id : employee}});
             if(taskExists){
                 taskExists.update({
                     title: title,
@@ -170,8 +174,9 @@ exports.putEditTask = async (req, res) =>{
                     project: project,
                     client : client
                 },{where: {id: id}})
-                .then(function(updatedTask) {
+                .then(async function(updatedTask) {
                     res.json(updatedTask);
+                    await updatedTask.addEmployee(employeeFromDb);
                   })
             }
             else{

@@ -111,7 +111,7 @@
         <div id="modal-add-time" class="modal">
             <form action="/add-time" method="POST">
                 <div class="container">
-                        <button onclick="document.getElementById('modal-add-task').style.display='block'">Tilføj ny task</button>
+                        <button onclick="document.getElementById('modal-add-task').style.display='block'" id="add-new-btn">Tilføj ny task</button>
                         <div id="modal-add-task" class="modal">
                             <form action="/add-task" method="POST">
                                 <div class="container">
@@ -144,7 +144,7 @@
                                 </div>
                             </form>
                         </div>
-                        <button onclick="document.getElementById('modal-add-other').style.display='block'">Tilføj andet</button>
+                        <button onclick="document.getElementById('modal-add-other').style.display='block'" id="add-other-btn">Tilføj andet</button>
                         <div id="modal-add-other" class="modal">
                             <form action="/add-other" method="POST">
                                 <label for="type">Type</label>

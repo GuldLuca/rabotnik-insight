@@ -1,3 +1,4 @@
+
 $(document).ready(() =>{
     
     $.ajax({
@@ -79,6 +80,7 @@ $(document).ready(() =>{
             let clientFromEdit = document.getElementById("edit-client");
 
             let projectSelectAdd = document.getElementById("select-project-add");
+            let employeeSelectAdd = document.getElementById("select-employee-add");
             let clientFromAdd = document.getElementById("add-client");
             
             //Create missing elements
@@ -126,6 +128,7 @@ $(document).ready(() =>{
             
             for(employee in employeeLastnames){
                 employeeSelect.options[employeeSelect.options.length] = new Option(employeeLastnames[employee], employee);
+                employeeSelectAdd.options[employeeSelectAdd.options.length] = new Option(employeeLastnames[employee], employee);
             }
             
             for(project in projectNames){
@@ -262,7 +265,7 @@ $(document).ready(() =>{
                     event.preventDefault();
 
                     const id = data.response.id;
-                    
+                  
                     //Data to be send
                     var dataFromForm = {
                         "title" : $("input[id=edit-title]").val(),
@@ -271,6 +274,7 @@ $(document).ready(() =>{
                         "done" : $("input[id=edit-done]").val(),
                         "project" : $("select[id=select-project]").val(),
                         "client" : $("input[id=edit-client]").val(),
+                        "employee" : $("select[id=select-employee]").val(),
                         "id" : data.response.id
                     }
                     

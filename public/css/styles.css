@@ -137,6 +137,10 @@ tr button{
   color: white;
 }
 
+.modal #add-new-btn, #add-other-btn{
+  background-color: #5a6d94;
+}
+
 .modal .cancel-btn{
   background-color:white;
   border-color: white;
